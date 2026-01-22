@@ -22,16 +22,69 @@ function CoffeeGuideInner() {
   const cats = categories[lang];
   const { totalItems, setIsOpen: setCartOpen } = useCart();
 
-  // Check for shared mix in URL
+  // Check for shared coffee in URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
+    // Check for regular coffee ID
+    const coffeeId = params.get('coffee');
+    if (coffeeId) {
+      const foundCoffee = coffees.find(c => c.id === coffeeId);
+      if (foundCoffee) {
+        setSelected(foundCoffee);
+        setCustomCoffee(null);
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+        return;
+      }
+    }
+
+    // Check for custom coffee (encoded)
+    const custom = params.get('custom');
+    if (custom) {
+      try {
+        const data = JSON.parse(atob(custom));
+        // Expand compact format to full format
+        const customCoffeeData = {
+          id: 'shared-' + Date.now(),
+          name: typeof data.n === 'string' ? { de: data.n, en: data.n } : data.n,
+          description: typeof data.d === 'string' ? { de: data.d, en: data.d } : (data.d || { de: '', en: '' }),
+          layers: data.l.map(layer => ({
+            type: layer.t,
+            ratio: layer.r
+          })),
+          graphic: data.g || 'robot',
+          recommendedBean: data.b,
+          category: 'custom',
+          note: 'KI'
+        };
+        setCustomCoffee(customCoffeeData);
+        setSelected(null);
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      } catch (e) {
+        console.error('Invalid custom coffee data:', e);
+      }
+    }
+
+    // Legacy mix format support
     const mix = params.get('mix');
     if (mix) {
       try {
         const data = JSON.parse(atob(mix));
-        console.log('Shared mix:', data);
+        const customCoffeeData = {
+          id: 'mix-' + Date.now(),
+          name: { de: data.name || 'Eigene Kreation', en: data.name || 'Custom Creation' },
+          description: { de: 'Eine selbst gemischte Kreation', en: 'A custom mixed creation' },
+          layers: data.layers,
+          category: 'custom',
+          note: 'Mix'
+        };
+        setCustomCoffee(customCoffeeData);
+        setSelected(null);
+        window.history.replaceState({}, '', window.location.pathname);
       } catch (e) {
-        console.error('Invalid mix data');
+        console.error('Invalid mix data:', e);
       }
     }
   }, []);
@@ -65,7 +118,24 @@ function CoffeeGuideInner() {
   const handleShare = () => {
     if (!selected && !customCoffee) return;
     const coffee = customCoffee || selected;
-    const url = `${window.location.origin}?coffee=${coffee.id}`;
+
+    let url;
+    if (customCoffee || coffee.category === 'custom' || coffee.id?.startsWith('custom-')) {
+      // Encode custom coffee in compact format
+      const compactData = {
+        n: coffee.name,
+        d: coffee.description,
+        l: coffee.layers.map(l => ({ t: l.type, r: l.ratio })),
+        g: coffee.graphic || 'robot',
+        b: coffee.recommendedBean
+      };
+      const encoded = btoa(JSON.stringify(compactData));
+      url = `${window.location.origin}${window.location.pathname}?custom=${encoded}`;
+    } else {
+      // Regular coffee - simple ID
+      url = `${window.location.origin}${window.location.pathname}?coffee=${coffee.id}`;
+    }
+
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -202,19 +272,9 @@ function CoffeeGuideInner() {
               lang={lang}
               t={t}
               isCustom={!!customCoffee}
+              onShare={handleShare}
             />
           </div>
-
-          {/* Share Button */}
-          {displayedCoffee && (
-            <button
-              onClick={handleShare}
-              className="absolute bottom-20 right-8 px-4 py-2 rounded-full text-sm font-medium bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center gap-2 shadow-md"
-            >
-              {copied ? '✓' : '🔗'}
-              {copied ? t.shareCopied : t.share}
-            </button>
-          )}
         </div>
       </main>
 

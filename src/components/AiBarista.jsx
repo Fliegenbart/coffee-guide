@@ -16,15 +16,28 @@ Wenn der User nach einer Kaffeeempfehlung fragt, antworte mit einer Empfehlung u
 \`\`\`coffee
 {
   "name": {"de": "Name auf Deutsch", "en": "Name in English"},
-  "description": {"de": "Beschreibung", "en": "Description"},
+  "description": {"de": "Kurze Beschreibung", "en": "Short description"},
   "layers": [
     {"type": "espresso", "ratio": 30},
     {"type": "steamed", "ratio": 50},
     {"type": "foam", "ratio": 20}
   ],
-  "recommendedBean": "Brazil Santos oder Colombia Supremo"
+  "recommendedBean": "Brazil Santos oder Colombia Supremo",
+  "graphic": "robot"
 }
 \`\`\`
+
+WICHTIG: Wähle immer einen passenden "graphic" Key für die Animation:
+- "fox" = Winterlich, arktisch, kühl, Vanille, Minze
+- "volcano" = Feurig, scharf, Chili, stark, intensiv
+- "unicorn" = Süß, bunt, Regenbogen, verspielt, mit Sirup
+- "dragon" = Mutig, feurig, gewagt, exotisch
+- "ghost" = Nacht, Traum, mysteriös, Decaf
+- "alien" = Außergewöhnlich, exotisch, ungewöhnlich
+- "wizard" = Magisch, geheimnisvoll, besonders
+- "mermaid" = Ozean, frisch, Kokosnuss, tropisch
+- "explosion" = Power, Energie, stark, Koffein-Boost
+- "robot" = Standard für normale KI-Kreationen
 
 Verfügbare Zutaten (type): espresso, decaf, doppio, ristretto, coldbrew, filter, steamed, oat, coconut, almond, foam, microfoam, cream, coldfoam, chocolate, whitechoc, caramel, vanilla, honey, cinnamon, matcha, chai, lavender, mint, chili, ice, water
 
