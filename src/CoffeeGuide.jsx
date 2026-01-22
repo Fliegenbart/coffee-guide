@@ -263,9 +263,9 @@ function CoffeeGuideInner() {
       </header>
 
       {/* Main Content - Split Layout */}
-      <main className="h-full pt-20 flex">
+      <main className="h-full pt-24 flex">
         {/* Left Side - Coffee Selection */}
-        <div className="w-1/2 h-full flex flex-col p-4 pt-2 border-r border-stone-200">
+        <div className="w-1/2 h-full flex flex-col p-4 pt-4 border-r border-stone-200">
           {/* Filter Pills */}
           <div className="flex gap-2 flex-wrap mb-3 justify-center">
             {Object.entries(cats).map(([key, label]) => (

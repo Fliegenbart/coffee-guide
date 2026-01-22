@@ -302,6 +302,7 @@ export const coffees = [
     name: { de: 'Mitternachtsträumer', en: 'Midnight Dreamer' },
     layers: [{ type: 'decaf', ratio: 25 }, { type: 'lavender', ratio: 10 }, { type: 'oat', ratio: 50 }, { type: 'honey', ratio: 15 }],
     category: 'crazy',
+    graphic: 'ghost',
     description: {
       de: 'Lavendel trifft Hafermilch - entspannend und verträumt',
       en: 'Lavender meets oat milk - relaxing and dreamy'
@@ -312,6 +313,7 @@ export const coffees = [
     name: { de: 'Polarfuchs', en: 'Arctic Fox' },
     layers: [{ type: 'espresso', ratio: 25 }, { type: 'whitechoc', ratio: 15 }, { type: 'coconut', ratio: 45 }, { type: 'mint', ratio: 15 }],
     category: 'crazy',
+    graphic: 'fox',
     description: {
       de: 'Eisig-minzig mit weißer Schokolade',
       en: 'Icy-minty with white chocolate'
@@ -323,6 +325,7 @@ export const coffees = [
     layers: [{ type: 'espresso', ratio: 35 }, { type: 'chili', ratio: 10 }, { type: 'chocolate', ratio: 25 }, { type: 'cream', ratio: 30 }],
     category: 'crazy',
     note: '🔥',
+    graphic: 'volcano',
     description: {
       de: 'Doppelt Espresso mit Chili-Kick - Vorsicht heiß!',
       en: 'Double espresso with chili kick - caution hot!'
@@ -333,6 +336,7 @@ export const coffees = [
     name: { de: 'Einhorn Latte', en: 'Unicorn Latte' },
     layers: [{ type: 'decaf', ratio: 20 }, { type: 'butterfly', ratio: 15 }, { type: 'vanilla', ratio: 10 }, { type: 'steamed', ratio: 40 }, { type: 'foam', ratio: 15 }],
     category: 'crazy',
+    graphic: 'unicorn',
     description: {
       de: 'Magisch lila mit Butterfly Pea Flower',
       en: 'Magically purple with butterfly pea flower'
@@ -343,6 +347,7 @@ export const coffees = [
     name: { de: 'Berliner Nacht', en: 'Berlin Night' },
     layers: [{ type: 'coldbrew', ratio: 35 }, { type: 'charcoal', ratio: 10 }, { type: 'oat', ratio: 40 }, { type: 'maple', ratio: 15 }],
     category: 'crazy',
+    graphic: 'ghost',
     description: {
       de: 'Dunkel wie die Nacht, süß wie Berlin',
       en: 'Dark as night, sweet as Berlin'
@@ -353,6 +358,7 @@ export const coffees = [
     name: { de: 'Goldener Drache', en: 'Golden Dragon' },
     layers: [{ type: 'espresso', ratio: 30 }, { type: 'turmeric', ratio: 10 }, { type: 'ginger', ratio: 10 }, { type: 'coconut', ratio: 40 }, { type: 'honey', ratio: 10 }],
     category: 'crazy',
+    graphic: 'dragon',
     description: {
       de: 'Kurkuma-Ingwer Power aus Fernost',
       en: 'Turmeric-ginger power from the Far East'
@@ -363,6 +369,7 @@ export const coffees = [
     name: { de: 'Nebelwald', en: 'Misty Forest' },
     layers: [{ type: 'matcha', ratio: 30 }, { type: 'espresso', ratio: 20 }, { type: 'almond', ratio: 40 }, { type: 'foam', ratio: 10 }],
     category: 'crazy',
+    graphic: 'mushroom',
     description: {
       de: 'Matcha trifft Espresso - grün und stark',
       en: 'Matcha meets espresso - green and strong'
@@ -373,6 +380,7 @@ export const coffees = [
     name: { de: 'Karamell-Supernova', en: 'Caramel Supernova' },
     layers: [{ type: 'espresso', ratio: 30 }, { type: 'caramel', ratio: 20 }, { type: 'mascarpone', ratio: 35 }, { type: 'foam', ratio: 15 }],
     category: 'crazy',
+    graphic: 'explosion',
     description: {
       de: 'Salzkaramell mit Mascarpone-Explosion',
       en: 'Salted caramel with mascarpone explosion'
@@ -383,6 +391,7 @@ export const coffees = [
     name: { de: 'Zimt-Zeitreise', en: 'Cinnamon Time Travel' },
     layers: [{ type: 'decaf', ratio: 25 }, { type: 'cinnamon', ratio: 15 }, { type: 'cardamom', ratio: 10 }, { type: 'condensed', ratio: 50 }],
     category: 'crazy',
+    graphic: 'wizard',
     description: {
       de: 'Ceylon-Zimt und Kardamom wie bei Oma',
       en: 'Ceylon cinnamon and cardamom like grandma\'s'
@@ -393,6 +402,7 @@ export const coffees = [
     name: { de: 'Nordlicht', en: 'Northern Lights' },
     layers: [{ type: 'coldbrew', ratio: 30 }, { type: 'bluecuracao', ratio: 15 }, { type: 'tonic', ratio: 40 }, { type: 'lemon', ratio: 15 }],
     category: 'crazy',
+    graphic: 'alien',
     description: {
       de: 'Schimmernder Cold Brew Tonic - Instagram-ready',
       en: 'Shimmering cold brew tonic - Instagram-ready'
@@ -403,6 +413,7 @@ export const coffees = [
     name: { de: 'Samurai Sunrise', en: 'Samurai Sunrise' },
     layers: [{ type: 'matcha', ratio: 35 }, { type: 'vanilla', ratio: 10 }, { type: 'oat', ratio: 45 }, { type: 'honey', ratio: 10 }],
     category: 'crazy',
+    graphic: 'panda',
     description: {
       de: 'Japanischer Matcha mit Vanille-Harmonie',
       en: 'Japanese matcha with vanilla harmony'
@@ -414,9 +425,224 @@ export const coffees = [
     layers: [{ type: 'espresso', ratio: 35 }, { type: 'caramel', ratio: 15 }, { type: 'chocolate', ratio: 20 }, { type: 'almond', ratio: 30 }],
     category: 'crazy',
     note: '🚀',
+    graphic: 'alien',
     description: {
       de: 'Wie ein Schokoriegel in Kaffeeform',
       en: 'Like a candy bar in coffee form'
+    }
+  },
+
+  // === NEUE VERRÜCKTE KREATIONEN ===
+  {
+    id: 'kuschelkatze',
+    name: { de: 'Kuschel-Katze', en: 'Cozy Cat' },
+    layers: [{ type: 'espresso', ratio: 25 }, { type: 'honey', ratio: 10 }, { type: 'steamed', ratio: 50 }, { type: 'foam', ratio: 15 }],
+    category: 'crazy',
+    graphic: 'cat',
+    note: '😺',
+    description: {
+      de: 'Warm und kuschelig wie eine schnurrende Katze',
+      en: 'Warm and cozy like a purring cat'
+    }
+  },
+  {
+    id: 'faultiertag',
+    name: { de: 'Faultier-Tag', en: 'Sloth Day' },
+    layers: [{ type: 'decaf', ratio: 30 }, { type: 'vanilla', ratio: 15 }, { type: 'oat', ratio: 45 }, { type: 'foam', ratio: 10 }],
+    category: 'decaf',
+    graphic: 'sloth',
+    note: '🦥',
+    description: {
+      de: 'Für Tage, an denen man einfach abhängen will',
+      en: 'For days when you just want to hang around'
+    }
+  },
+  {
+    id: 'honigbiene',
+    name: { de: 'Fleißige Biene', en: 'Busy Bee' },
+    layers: [{ type: 'espresso', ratio: 30 }, { type: 'honey', ratio: 20 }, { type: 'lavender', ratio: 10 }, { type: 'steamed', ratio: 40 }],
+    category: 'crazy',
+    graphic: 'bee',
+    note: '🐝',
+    description: {
+      de: 'Honig-Lavendel Power für fleißige Menschen',
+      en: 'Honey-lavender power for busy people'
+    }
+  },
+  {
+    id: 'regenwolke',
+    name: { de: 'Regenwolke', en: 'Rain Cloud' },
+    layers: [{ type: 'coldbrew', ratio: 35 }, { type: 'vanilla', ratio: 10 }, { type: 'steamed', ratio: 40 }, { type: 'foam', ratio: 15 }],
+    category: 'crazy',
+    graphic: 'cloud',
+    note: '🌧️',
+    description: {
+      de: 'Perfekt für gemütliche Regentage',
+      en: 'Perfect for cozy rainy days'
+    }
+  },
+  {
+    id: 'bambuspanda',
+    name: { de: 'Bambus-Panda', en: 'Bamboo Panda' },
+    layers: [{ type: 'matcha', ratio: 35 }, { type: 'coconut', ratio: 30 }, { type: 'vanilla', ratio: 10 }, { type: 'foam', ratio: 25 }],
+    category: 'crazy',
+    graphic: 'panda',
+    note: '🐼',
+    description: {
+      de: 'Matcha-Traum aus dem Bambuswald',
+      en: 'Matcha dream from the bamboo forest'
+    }
+  },
+  {
+    id: 'tintenfisch',
+    name: { de: 'Tinten-Twist', en: 'Inky Twist' },
+    layers: [{ type: 'espresso', ratio: 30 }, { type: 'charcoal', ratio: 10 }, { type: 'coconut', ratio: 35 }, { type: 'blacksesame', ratio: 15 }, { type: 'foam', ratio: 10 }],
+    category: 'crazy',
+    graphic: 'octopus',
+    note: '🐙',
+    description: {
+      de: 'Dunkel und geheimnisvoll aus der Tiefsee',
+      en: 'Dark and mysterious from the deep sea'
+    }
+  },
+  {
+    id: 'regenbogentraum',
+    name: { de: 'Regenbogen-Traum', en: 'Rainbow Dream' },
+    layers: [{ type: 'decaf', ratio: 20 }, { type: 'butterfly', ratio: 15 }, { type: 'rose', ratio: 10 }, { type: 'oat', ratio: 40 }, { type: 'foam', ratio: 15 }],
+    category: 'crazy',
+    graphic: 'rainbow',
+    note: '🌈',
+    description: {
+      de: 'Bunt wie ein Regenbogen nach dem Regen',
+      en: 'Colorful like a rainbow after the rain'
+    }
+  },
+  {
+    id: 'waldpilz',
+    name: { de: 'Magischer Pilz', en: 'Magic Mushroom' },
+    layers: [{ type: 'espresso', ratio: 25 }, { type: 'miso', ratio: 10 }, { type: 'maple', ratio: 10 }, { type: 'oat', ratio: 45 }, { type: 'foam', ratio: 10 }],
+    category: 'crazy',
+    graphic: 'mushroom',
+    note: '🍄',
+    description: {
+      de: 'Umami-Trip durch den Zauberwald',
+      en: 'Umami trip through the enchanted forest'
+    }
+  },
+  {
+    id: 'persischerprinz',
+    name: { de: 'Persischer Prinz', en: 'Persian Prince' },
+    layers: [{ type: 'espresso', ratio: 25 }, { type: 'rose', ratio: 15 }, { type: 'pistachio', ratio: 15 }, { type: 'steamed', ratio: 35 }, { type: 'foam', ratio: 10 }],
+    category: 'crazy',
+    graphic: 'wizard',
+    description: {
+      de: 'Orientalische Magie mit Rose und Pistazie',
+      en: 'Oriental magic with rose and pistachio'
+    }
+  },
+  {
+    id: 'tokyodrift',
+    name: { de: 'Tokyo Drift', en: 'Tokyo Drift' },
+    layers: [{ type: 'espresso', ratio: 25 }, { type: 'blacksesame', ratio: 15 }, { type: 'condensed', ratio: 20 }, { type: 'oat', ratio: 35 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'panda',
+    note: '🗼',
+    description: {
+      de: 'Schwarzer Sesam trifft japanische Perfektion',
+      en: 'Black sesame meets Japanese perfection'
+    }
+  },
+  {
+    id: 'erdnusstraum',
+    name: { de: 'Erdnuss-Traum', en: 'Peanut Dream' },
+    layers: [{ type: 'espresso', ratio: 30 }, { type: 'peanut', ratio: 20 }, { type: 'banana', ratio: 15 }, { type: 'oat', ratio: 30 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'sloth',
+    description: {
+      de: 'Wie Erdnussbutter-Sandwich zum Trinken',
+      en: 'Like a drinkable peanut butter sandwich'
+    }
+  },
+  {
+    id: 'mediterraneo',
+    name: { de: 'Mediterraneo', en: 'Mediterraneo' },
+    layers: [{ type: 'espresso', ratio: 35 }, { type: 'olive', ratio: 10 }, { type: 'orange', ratio: 10 }, { type: 'steamed', ratio: 40 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'mermaid',
+    description: {
+      de: 'Olivenöl-Espresso aus dem Mittelmeer',
+      en: 'Olive oil espresso from the Mediterranean'
+    }
+  },
+  {
+    id: 'himbeerwolke',
+    name: { de: 'Himbeer-Wolke', en: 'Raspberry Cloud' },
+    layers: [{ type: 'decaf', ratio: 25 }, { type: 'raspberry', ratio: 20 }, { type: 'whitechoc', ratio: 15 }, { type: 'oat', ratio: 30 }, { type: 'foam', ratio: 10 }],
+    category: 'decaf',
+    graphic: 'cloud',
+    note: '☁️',
+    description: {
+      de: 'Rosa Wolken zum Träumen',
+      en: 'Pink clouds for dreaming'
+    }
+  },
+  {
+    id: 'avocadoengel',
+    name: { de: 'Avocado-Engel', en: 'Avocado Angel' },
+    layers: [{ type: 'espresso', ratio: 25 }, { type: 'avocado', ratio: 25 }, { type: 'honey', ratio: 10 }, { type: 'oat', ratio: 35 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'sloth',
+    note: '🥑',
+    description: {
+      de: 'Ja, wirklich! Cremig und überraschend lecker',
+      en: 'Yes, really! Creamy and surprisingly delicious'
+    }
+  },
+  {
+    id: 'taropurpur',
+    name: { de: 'Taro Purpur', en: 'Taro Purple' },
+    layers: [{ type: 'espresso', ratio: 20 }, { type: 'taro', ratio: 25 }, { type: 'coconut', ratio: 35 }, { type: 'condensed', ratio: 15 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'unicorn',
+    note: '💜',
+    description: {
+      de: 'Lila wie der Sonnenuntergang auf Bali',
+      en: 'Purple like a Bali sunset'
+    }
+  },
+  {
+    id: 'halloweenhorror',
+    name: { de: 'Halloween Horror', en: 'Halloween Horror' },
+    layers: [{ type: 'espresso', ratio: 30 }, { type: 'pumpkin', ratio: 20 }, { type: 'cinnamon', ratio: 10 }, { type: 'oat', ratio: 30 }, { type: 'cream', ratio: 10 }],
+    category: 'crazy',
+    graphic: 'ghost',
+    note: '🎃',
+    description: {
+      de: 'Pumpkin Spice für Grusel-Fans',
+      en: 'Pumpkin spice for spooky fans'
+    }
+  },
+  {
+    id: 'tahinizauber',
+    name: { de: 'Tahini-Zauber', en: 'Tahini Magic' },
+    layers: [{ type: 'espresso', ratio: 30 }, { type: 'tahini', ratio: 20 }, { type: 'honey', ratio: 10 }, { type: 'oat', ratio: 35 }, { type: 'foam', ratio: 5 }],
+    category: 'crazy',
+    graphic: 'wizard',
+    description: {
+      de: 'Sesampaste trifft Kaffee - total abgefahren',
+      en: 'Sesame paste meets coffee - totally wild'
+    }
+  },
+  {
+    id: 'drachenatem',
+    name: { de: 'Drachenatem', en: 'Dragon Breath' },
+    layers: [{ type: 'espresso', ratio: 35 }, { type: 'chili', ratio: 15 }, { type: 'ginger', ratio: 10 }, { type: 'coconut', ratio: 30 }, { type: 'honey', ratio: 10 }],
+    category: 'crazy',
+    graphic: 'dragon',
+    note: '🐲',
+    description: {
+      de: 'Schärfe und Ingwer für mutige Krieger',
+      en: 'Heat and ginger for brave warriors'
     }
   },
 ];

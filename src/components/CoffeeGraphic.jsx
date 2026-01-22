@@ -405,6 +405,298 @@ function MermaidAnimation() {
   );
 }
 
+// Cat Animation - Cozy/Cute theme
+function CatAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="cat-purr w-full h-full" viewBox="0 0 80 80">
+        {/* Yarn ball */}
+        <circle cx="15" cy="60" r="8" fill="#f472b6" />
+        <path d="M15,52 Q10,48 18,45" fill="none" stroke="#f472b6" strokeWidth="2" />
+        {/* Cat body */}
+        <ellipse cx="50" cy="55" rx="18" ry="12" fill="#fbbf24" />
+        {/* Tail */}
+        <path d="M32,55 Q20,45 25,35" fill="none" stroke="#fbbf24" strokeWidth="6" strokeLinecap="round">
+          <animate attributeName="d" values="M32,55 Q20,45 25,35;M32,55 Q25,40 30,32;M32,55 Q20,45 25,35" dur="2s" repeatCount="indefinite" />
+        </path>
+        {/* Head */}
+        <circle cx="55" cy="40" r="14" fill="#fbbf24" />
+        {/* Ears */}
+        <polygon points="45,30 42,18 50,28" fill="#fbbf24" />
+        <polygon points="65,30 68,18 60,28" fill="#fbbf24" />
+        <polygon points="46,29 44,22 49,28" fill="#fda4af" />
+        <polygon points="64,29 66,22 61,28" fill="#fda4af" />
+        {/* Face */}
+        <ellipse cx="50" cy="42" rx="2.5" ry="3" fill="#1c1917" />
+        <ellipse cx="60" cy="42" rx="2.5" ry="3" fill="#1c1917" />
+        <ellipse cx="55" cy="48" rx="3" ry="2" fill="#f472b6" />
+        {/* Whiskers */}
+        <line x1="42" y1="46" x2="35" y2="44" stroke="#1c1917" strokeWidth="1" />
+        <line x1="42" y1="48" x2="35" y2="48" stroke="#1c1917" strokeWidth="1" />
+        <line x1="68" y1="46" x2="75" y2="44" stroke="#1c1917" strokeWidth="1" />
+        <line x1="68" y1="48" x2="75" y2="48" stroke="#1c1917" strokeWidth="1" />
+        {/* Zzz */}
+        <text className="zzz-animation" x="68" y="25" fontSize="8" fill="#94a3b8">z</text>
+        <text className="zzz-animation" style={{animationDelay: '0.3s'}} x="72" y="18" fontSize="10" fill="#94a3b8">z</text>
+        <text className="zzz-animation" style={{animationDelay: '0.6s'}} x="76" y="10" fontSize="12" fill="#94a3b8">z</text>
+      </svg>
+    </div>
+  );
+}
+
+// Sloth Animation - Lazy/Relaxed theme
+function SlothAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="sloth-swing w-full h-full" viewBox="0 0 80 80">
+        {/* Branch */}
+        <path d="M5,15 Q40,10 75,18" fill="none" stroke="#78350f" strokeWidth="4" />
+        <ellipse cx="25" cy="12" rx="8" ry="4" fill="#22c55e" />
+        <ellipse cx="60" cy="15" rx="10" ry="5" fill="#22c55e" />
+        {/* Arms holding branch */}
+        <path d="M35,18 Q33,28 38,32" fill="none" stroke="#a8a29e" strokeWidth="4" strokeLinecap="round" />
+        <path d="M50,16 Q52,26 47,32" fill="none" stroke="#a8a29e" strokeWidth="4" strokeLinecap="round" />
+        {/* Body */}
+        <ellipse cx="42" cy="50" rx="15" ry="18" fill="#a8a29e" />
+        {/* Face patch */}
+        <ellipse cx="42" cy="45" rx="12" ry="10" fill="#fef3c7" />
+        {/* Eyes with dark patches */}
+        <ellipse cx="37" cy="43" rx="5" ry="4" fill="#57534e" />
+        <ellipse cx="47" cy="43" rx="5" ry="4" fill="#57534e" />
+        <circle cx="37" cy="43" r="2" fill="#1c1917" />
+        <circle cx="47" cy="43" r="2" fill="#1c1917" />
+        {/* Sleepy eye lids */}
+        <path d="M33,41 Q37,39 41,41" fill="none" stroke="#fef3c7" strokeWidth="2" />
+        <path d="M43,41 Q47,39 51,41" fill="none" stroke="#fef3c7" strokeWidth="2" />
+        {/* Nose */}
+        <ellipse cx="42" cy="50" rx="3" ry="2" fill="#1c1917" />
+        {/* Smile */}
+        <path d="M38,54 Q42,58 46,54" fill="none" stroke="#1c1917" strokeWidth="1.5" />
+      </svg>
+    </div>
+  );
+}
+
+// Bee Animation - Honey/Sweet theme
+function BeeAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      {/* Honey drips */}
+      {[...Array(3)].map((_, i) => (
+        <div key={i} className="honey-drip" style={{ left: `${20 + i * 25}%`, animationDelay: `${i * 0.5}s` }} />
+      ))}
+      <svg className="bee-fly w-full h-full" viewBox="0 0 80 80">
+        {/* Flower */}
+        <circle cx="60" cy="65" r="8" fill="#f472b6" />
+        <circle cx="60" cy="65" r="4" fill="#fbbf24" />
+        <line x1="60" y1="73" x2="60" y2="80" stroke="#22c55e" strokeWidth="2" />
+        {/* Bee body */}
+        <ellipse cx="35" cy="40" rx="12" ry="10" fill="#fbbf24" />
+        {/* Stripes */}
+        <rect x="29" y="34" width="4" height="12" fill="#1c1917" rx="1" />
+        <rect x="35" y="34" width="4" height="12" fill="#1c1917" rx="1" />
+        {/* Head */}
+        <circle cx="48" cy="40" r="8" fill="#1c1917" />
+        {/* Eyes */}
+        <circle cx="50" cy="38" r="3" fill="#ffffff" />
+        <circle cx="51" cy="38" r="1.5" fill="#1c1917" />
+        {/* Antennae */}
+        <path d="M52,32 Q55,28 58,30" fill="none" stroke="#1c1917" strokeWidth="1.5" />
+        <path d="M48,32 Q50,26 53,25" fill="none" stroke="#1c1917" strokeWidth="1.5" />
+        <circle cx="58" cy="30" r="2" fill="#1c1917" />
+        <circle cx="53" cy="25" r="2" fill="#1c1917" />
+        {/* Wings */}
+        <ellipse className="wing-left" cx="32" cy="30" rx="8" ry="5" fill="#bfdbfe" opacity="0.7" />
+        <ellipse className="wing-right" cx="38" cy="30" rx="8" ry="5" fill="#bfdbfe" opacity="0.7" />
+        {/* Stinger */}
+        <polygon points="23,40 18,40 20,38" fill="#1c1917" />
+      </svg>
+    </div>
+  );
+}
+
+// Cloud Animation - Rainy day/Dreamy theme
+function CloudAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="w-full h-full" viewBox="0 0 80 80">
+        {/* Sun behind cloud */}
+        <circle cx="60" cy="25" r="12" fill="#fbbf24" opacity="0.6" />
+        {/* Rays */}
+        {[...Array(8)].map((_, i) => (
+          <line key={i} x1="60" y1="25" x2={60 + Math.cos(i * Math.PI / 4) * 18} y2={25 + Math.sin(i * Math.PI / 4) * 18} stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+        ))}
+        {/* Cloud */}
+        <g className="cloud-float">
+          <ellipse cx="25" cy="35" rx="12" ry="10" fill="#ffffff" />
+          <ellipse cx="40" cy="32" rx="15" ry="12" fill="#ffffff" />
+          <ellipse cx="55" cy="35" rx="12" ry="10" fill="#ffffff" />
+          <ellipse cx="35" cy="40" rx="20" ry="10" fill="#ffffff" />
+          {/* Cloud face */}
+          <circle cx="35" cy="36" r="2" fill="#1c1917" />
+          <circle cx="45" cy="36" r="2" fill="#1c1917" />
+          <path d="M37,42 Q40,45 43,42" fill="none" stroke="#1c1917" strokeWidth="1.5" strokeLinecap="round" />
+          {/* Rosy cheeks */}
+          <circle cx="32" cy="40" r="3" fill="#fda4af" opacity="0.5" />
+          <circle cx="48" cy="40" r="3" fill="#fda4af" opacity="0.5" />
+        </g>
+        {/* Rain drops */}
+        {[...Array(5)].map((_, i) => (
+          <ellipse key={i} className="raindrop" cx={25 + i * 10} cy="55" rx="2" ry="4" fill="#60a5fa" style={{animationDelay: `${i * 0.2}s`}} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+// Panda Animation - Cute/Asian theme
+function PandaAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      {/* Bamboo */}
+      <svg className="w-full h-full" viewBox="0 0 80 80">
+        <rect x="5" y="20" width="6" height="60" fill="#22c55e" rx="2" />
+        <rect x="5" y="35" width="6" height="2" fill="#15803d" />
+        <rect x="5" y="55" width="6" height="2" fill="#15803d" />
+        <path d="M8,25 Q15,20 12,10" fill="#22c55e" />
+        {/* Panda */}
+        <g className="panda-munch">
+          {/* Body */}
+          <ellipse cx="50" cy="58" rx="16" ry="14" fill="#ffffff" />
+          {/* Head */}
+          <circle cx="50" cy="38" r="18" fill="#ffffff" />
+          {/* Ears */}
+          <circle cx="35" cy="24" r="7" fill="#1c1917" />
+          <circle cx="65" cy="24" r="7" fill="#1c1917" />
+          {/* Eye patches */}
+          <ellipse cx="42" cy="38" rx="7" ry="8" fill="#1c1917" />
+          <ellipse cx="58" cy="38" rx="7" ry="8" fill="#1c1917" />
+          {/* Eyes */}
+          <circle cx="42" cy="38" r="3" fill="#ffffff" />
+          <circle cx="58" cy="38" r="3" fill="#ffffff" />
+          <circle cx="43" cy="37" r="1.5" fill="#1c1917" />
+          <circle cx="59" cy="37" r="1.5" fill="#1c1917" />
+          {/* Nose */}
+          <ellipse cx="50" cy="46" rx="4" ry="3" fill="#1c1917" />
+          {/* Mouth */}
+          <path d="M46,50 Q50,54 54,50" fill="none" stroke="#1c1917" strokeWidth="1.5" />
+          {/* Blush */}
+          <circle cx="38" cy="45" r="3" fill="#fda4af" opacity="0.6" />
+          <circle cx="62" cy="45" r="3" fill="#fda4af" opacity="0.6" />
+          {/* Bamboo in hand */}
+          <rect x="68" y="50" width="4" height="20" fill="#22c55e" rx="1" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+// Octopus Animation - Adventurous/Ocean theme
+function OctopusAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="w-full h-full" viewBox="0 0 80 80">
+        {/* Bubbles */}
+        {[...Array(4)].map((_, i) => (
+          <circle key={i} className="bubble-rise" cx={15 + i * 18} cy={60 - i * 5} r={2 + i} fill="#60a5fa" opacity="0.4" style={{animationDelay: `${i * 0.3}s`}} />
+        ))}
+        {/* Tentacles */}
+        <g className="tentacles-wave">
+          <path d="M20,50 Q15,60 20,70 Q25,75 22,80" fill="none" stroke="#c084fc" strokeWidth="5" strokeLinecap="round" />
+          <path d="M30,52 Q28,62 32,72 Q35,78 30,80" fill="none" stroke="#c084fc" strokeWidth="5" strokeLinecap="round" />
+          <path d="M40,54 Q40,65 42,75 Q43,78 40,80" fill="none" stroke="#c084fc" strokeWidth="5" strokeLinecap="round" />
+          <path d="M50,52 Q52,62 48,72 Q45,78 50,80" fill="none" stroke="#c084fc" strokeWidth="5" strokeLinecap="round" />
+          <path d="M60,50 Q65,60 60,70 Q55,75 58,80" fill="none" stroke="#c084fc" strokeWidth="5" strokeLinecap="round" />
+        </g>
+        {/* Head */}
+        <ellipse cx="40" cy="35" rx="22" ry="20" fill="#c084fc" />
+        {/* Spots */}
+        <circle cx="28" cy="30" r="3" fill="#a855f7" opacity="0.5" />
+        <circle cx="52" cy="32" r="4" fill="#a855f7" opacity="0.5" />
+        <circle cx="45" cy="22" r="2" fill="#a855f7" opacity="0.5" />
+        {/* Eyes */}
+        <ellipse cx="32" cy="38" rx="6" ry="7" fill="#ffffff" />
+        <ellipse cx="48" cy="38" rx="6" ry="7" fill="#ffffff" />
+        <circle cx="34" cy="38" r="3" fill="#1c1917" />
+        <circle cx="50" cy="38" r="3" fill="#1c1917" />
+        <circle cx="35" cy="37" r="1" fill="#ffffff" />
+        <circle cx="51" cy="37" r="1" fill="#ffffff" />
+        {/* Smile */}
+        <path d="M35,48 Q40,53 45,48" fill="none" stroke="#1c1917" strokeWidth="2" strokeLinecap="round" />
+        {/* Coffee cup on tentacle */}
+        <rect x="62" y="55" width="8" height="10" fill="#78350f" rx="1" />
+        <rect x="70" y="58" width="3" height="5" fill="none" stroke="#78350f" strokeWidth="1.5" rx="1" />
+      </svg>
+    </div>
+  );
+}
+
+// Rainbow Animation - Colorful/Happy theme
+function RainbowAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="w-full h-full" viewBox="0 0 80 80">
+        {/* Rainbow */}
+        <g className="rainbow-appear">
+          <path d="M5,60 Q40,0 75,60" fill="none" stroke="#ef4444" strokeWidth="4" />
+          <path d="M10,60 Q40,8 70,60" fill="none" stroke="#f97316" strokeWidth="4" />
+          <path d="M15,60 Q40,16 65,60" fill="none" stroke="#fbbf24" strokeWidth="4" />
+          <path d="M20,60 Q40,24 60,60" fill="none" stroke="#22c55e" strokeWidth="4" />
+          <path d="M25,60 Q40,32 55,60" fill="none" stroke="#3b82f6" strokeWidth="4" />
+          <path d="M30,60 Q40,40 50,60" fill="none" stroke="#8b5cf6" strokeWidth="4" />
+        </g>
+        {/* Clouds */}
+        <g>
+          <ellipse cx="12" cy="60" rx="10" ry="8" fill="#ffffff" />
+          <ellipse cx="20" cy="58" rx="8" ry="6" fill="#ffffff" />
+          <ellipse cx="68" cy="60" rx="10" ry="8" fill="#ffffff" />
+          <ellipse cx="60" cy="58" rx="8" ry="6" fill="#ffffff" />
+        </g>
+        {/* Stars */}
+        <text className="twinkle" x="35" y="20" fontSize="10">✨</text>
+        <text className="twinkle" style={{animationDelay: '0.5s'}} x="50" y="15" fontSize="8">⭐</text>
+        <text className="twinkle" style={{animationDelay: '1s'}} x="25" y="28" fontSize="6">✨</text>
+      </svg>
+    </div>
+  );
+}
+
+// Mushroom Animation - Earthy/Forest theme
+function MushroomAnimation() {
+  return (
+    <div className="relative w-20 h-20">
+      <svg className="w-full h-full" viewBox="0 0 80 80">
+        {/* Grass */}
+        <path d="M0,70 Q5,65 10,70 Q15,65 20,70 Q25,65 30,70 Q35,65 40,70 Q45,65 50,70 Q55,65 60,70 Q65,65 70,70 Q75,65 80,70 L80,80 L0,80 Z" fill="#22c55e" />
+        {/* Small mushroom */}
+        <rect x="12" y="55" width="6" height="15" fill="#fef3c7" />
+        <ellipse cx="15" cy="55" rx="10" ry="8" fill="#ef4444" />
+        <circle cx="12" cy="52" r="2" fill="#ffffff" />
+        <circle cx="18" cy="54" r="1.5" fill="#ffffff" />
+        {/* Main mushroom */}
+        <g className="mushroom-bounce">
+          <rect x="32" y="45" width="16" height="25" fill="#fef3c7" rx="3" />
+          <ellipse cx="40" cy="45" rx="22" ry="15" fill="#ef4444" />
+          {/* Spots */}
+          <circle cx="30" cy="42" r="4" fill="#ffffff" />
+          <circle cx="45" cy="38" r="5" fill="#ffffff" />
+          <circle cx="52" cy="45" r="3" fill="#ffffff" />
+          <circle cx="35" cy="50" r="3" fill="#ffffff" />
+          {/* Face */}
+          <circle cx="36" cy="42" r="2" fill="#1c1917" />
+          <circle cx="44" cy="42" r="2" fill="#1c1917" />
+          <path d="M38,48 Q40,51 42,48" fill="none" stroke="#1c1917" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="33" cy="45" r="2.5" fill="#fda4af" opacity="0.6" />
+          <circle cx="47" cy="45" r="2.5" fill="#fda4af" opacity="0.6" />
+        </g>
+        {/* Sparkles */}
+        <text className="sparkle-float" x="60" y="35" fontSize="10">✨</text>
+        <text className="sparkle-float" style={{animationDelay: '0.7s'}} x="20" y="40" fontSize="8">✨</text>
+      </svg>
+    </div>
+  );
+}
+
 // Main component that renders the appropriate graphic
 export default function CoffeeGraphic({ type }) {
   const graphics = {
@@ -418,6 +710,14 @@ export default function CoffeeGraphic({ type }) {
     alien: AlienAnimation,
     wizard: WizardAnimation,
     mermaid: MermaidAnimation,
+    cat: CatAnimation,
+    sloth: SlothAnimation,
+    bee: BeeAnimation,
+    cloud: CloudAnimation,
+    panda: PandaAnimation,
+    octopus: OctopusAnimation,
+    rainbow: RainbowAnimation,
+    mushroom: MushroomAnimation,
   };
 
   const GraphicComponent = graphics[type];
@@ -441,4 +741,12 @@ export const graphicTypes = {
   alien: 'Außergewöhnlich, exotisch, ungewöhnlich',
   wizard: 'Magisch, geheimnisvoll, besonders',
   mermaid: 'Ozean, frisch, Kokosnuss, tropisch',
+  cat: 'Gemütlich, kuschelig, entspannt, warm',
+  sloth: 'Faul, entspannt, langsam, chillig',
+  bee: 'Honig, süß, Blumen, fleißig',
+  cloud: 'Regentag, verträumt, weich, fluffig',
+  panda: 'Asiatisch, süß, Matcha, Bambus',
+  octopus: 'Abenteuerlich, verrückt, Meer, viele Arme',
+  rainbow: 'Bunt, fröhlich, Pride, Regenbogen',
+  mushroom: 'Wald, Erde, natürlich, magisch',
 };

@@ -93,11 +93,11 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 mt-2 pb-2">
+        <div className="flex items-center justify-center gap-3 mt-2 pb-2 relative z-20">
           {/* Previous Button */}
           <button
-            onClick={prevPage}
-            className="w-8 h-8 rounded-full bg-white border border-stone-300 text-stone-600 hover:bg-stone-50 hover:border-amber-500 transition-all flex items-center justify-center shadow-sm text-sm"
+            onClick={(e) => { e.stopPropagation(); prevPage(); }}
+            className="w-10 h-10 rounded-full bg-white border-2 border-stone-300 text-stone-700 hover:bg-amber-50 hover:border-amber-500 hover:text-amber-600 transition-all flex items-center justify-center shadow-md text-lg font-bold cursor-pointer active:scale-95"
           >
             ←
           </button>
@@ -119,8 +119,8 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
 
           {/* Next Button */}
           <button
-            onClick={nextPage}
-            className="w-8 h-8 rounded-full bg-white border border-stone-300 text-stone-600 hover:bg-stone-50 hover:border-amber-500 transition-all flex items-center justify-center shadow-sm text-sm"
+            onClick={(e) => { e.stopPropagation(); nextPage(); }}
+            className="w-10 h-10 rounded-full bg-white border-2 border-stone-300 text-stone-700 hover:bg-amber-50 hover:border-amber-500 hover:text-amber-600 transition-all flex items-center justify-center shadow-md text-lg font-bold cursor-pointer active:scale-95"
           >
             →
           </button>

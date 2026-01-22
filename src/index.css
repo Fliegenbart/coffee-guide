@@ -534,3 +534,172 @@ input[type="text"]:focus, textarea:focus, select:focus {
   20% { opacity: 0.8; }
   100% { transform: translateY(-20px) scale(1); opacity: 0; }
 }
+
+/* =========================
+   NEW CUTE ANIMATIONS
+   ========================= */
+
+/* Cat Animation */
+.cat-purr {
+  animation: catPurr 3s ease-in-out infinite;
+}
+
+@keyframes catPurr {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-1deg); }
+  75% { transform: translateY(-3px) rotate(1deg); }
+}
+
+.zzz-animation {
+  animation: zzzFloat 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes zzzFloat {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  50% { opacity: 1; transform: scale(1); }
+  100% { transform: translateY(-15px) scale(0.8); opacity: 0; }
+}
+
+/* Sloth Animation */
+.sloth-swing {
+  animation: slothSwing 4s ease-in-out infinite;
+}
+
+@keyframes slothSwing {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Bee Animation */
+.bee-fly {
+  animation: beeFly 2s ease-in-out infinite;
+}
+
+@keyframes beeFly {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(5px, -5px); }
+  50% { transform: translate(10px, 0); }
+  75% { transform: translate(5px, 5px); }
+}
+
+.wing-left, .wing-right {
+  animation: wingFlap 0.1s linear infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes wingFlap {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(20deg); }
+}
+
+.honey-drip {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+  border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+  animation: honeyDrip 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes honeyDrip {
+  0% { transform: translateY(-20px) scaleY(0.5); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translateY(60px) scaleY(1.2); opacity: 0; }
+}
+
+/* Cloud Animation */
+.cloud-float {
+  animation: cloudFloat 3s ease-in-out infinite;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+.raindrop {
+  animation: rainDrop 1.5s linear infinite;
+  opacity: 0;
+}
+
+@keyframes rainDrop {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { transform: translateY(25px); opacity: 0; }
+}
+
+/* Panda Animation */
+.panda-munch {
+  animation: pandaMunch 2s ease-in-out infinite;
+}
+
+@keyframes pandaMunch {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-2px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-2px); }
+}
+
+/* Octopus Animation */
+.tentacles-wave {
+  animation: tentacleWave 2s ease-in-out infinite;
+}
+
+@keyframes tentacleWave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  75% { transform: rotate(-2deg); }
+}
+
+.bubble-rise {
+  animation: bubbleRiseOcto 3s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes bubbleRiseOcto {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
+}
+
+/* Rainbow Animation */
+.rainbow-appear {
+  animation: rainbowAppear 3s ease-in-out infinite;
+}
+
+@keyframes rainbowAppear {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.twinkle {
+  animation: twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+
+/* Mushroom Animation */
+.mushroom-bounce {
+  animation: mushroomBounce 2s ease-in-out infinite;
+}
+
+@keyframes mushroomBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.02); }
+}
+
+.sparkle-float {
+  animation: sparkleFloatUp 2.5s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes sparkleFloatUp {
+  0% { transform: translateY(0) scale(0); opacity: 0; }
+  30% { opacity: 1; transform: scale(1); }
+  100% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+}
