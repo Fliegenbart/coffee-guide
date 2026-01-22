@@ -6,7 +6,6 @@ import CoffeeCarousel from './components/CoffeeCarousel';
 import CoffeeMixer from './components/CoffeeMixer';
 import Cart from './components/shop/Cart';
 import AiBarista from './components/AiBarista';
-import FloatingBeans from './components/FloatingBeans';
 import { CartProvider, useCart } from './context/CartContext';
 
 function CoffeeGuideInner() {
@@ -17,6 +16,7 @@ function CoffeeGuideInner() {
   const [baristaOpen, setBaristaOpen] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [customCoffee, setCustomCoffee] = useState(null);
 
   const t = translations[lang];
   const cats = categories[lang];
@@ -45,6 +45,7 @@ function CoffeeGuideInner() {
 
   const handleSurpriseMe = () => {
     setIsSpinning(true);
+    setCustomCoffee(null);
     let count = 0;
     const maxSpins = 15;
     const interval = setInterval(() => {
@@ -62,57 +63,63 @@ function CoffeeGuideInner() {
   };
 
   const handleShare = () => {
-    if (!selected) return;
-    const url = `${window.location.origin}?coffee=${selected.id}`;
+    if (!selected && !customCoffee) return;
+    const coffee = customCoffee || selected;
+    const url = `${window.location.origin}?coffee=${coffee.id}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
-    <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative">
-      {/* Animated Background Beans */}
-      <FloatingBeans />
+  // Handle custom coffee from AI Barista
+  const handleCustomCoffee = (coffee) => {
+    setCustomCoffee(coffee);
+    setSelected(null);
+  };
 
-      {/* Gold Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-gold/10 pointer-events-none" />
+  // Handle selecting a regular coffee
+  const handleSelectCoffee = (coffee) => {
+    setCustomCoffee(null);
+    setSelected(coffee);
+  };
+
+  const displayedCoffee = customCoffee || selected;
+
+  return (
+    <div className="h-screen w-screen overflow-hidden bg-stone-100 relative">
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 opacity-30" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, #d4d4d4 1px, transparent 0)`,
+        backgroundSize: '24px 24px'
+      }} />
 
       {/* Header - Fixed */}
-      <header className="absolute top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-amber-200/50">
+      <header className="absolute top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-700 to-amber-900 flex items-center justify-center shadow-lg">
                 <span className="text-lg">☕</span>
               </div>
               <div>
                 <h1 className="text-xl font-display font-semibold text-stone-800 tracking-wide">
                   {t.title}
                 </h1>
-                <p className="text-amber-600 text-xs">{coffees.length} {t.subtitle}</p>
+                <p className="text-stone-500 text-xs">{coffees.length} {t.subtitle}</p>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center gap-2">
-              {/* AI Barista Button */}
-              <button
-                onClick={() => setBaristaOpen(true)}
-                className="px-4 py-2 rounded-full text-sm font-medium btn-gold flex items-center gap-2"
-              >
-                <span>🤖</span>
-                <span className="hidden sm:inline">KI-Barista</span>
-              </button>
-
               {/* Surprise Me Button */}
               <button
                 onClick={handleSurpriseMe}
                 disabled={isSpinning}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
                   isSpinning
-                    ? 'bg-gold text-white animate-pulse'
-                    : 'bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50'
+                    ? 'bg-amber-600 text-white animate-pulse'
+                    : 'bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50'
                 }`}
               >
                 {isSpinning ? '🎰' : '🎲'}
@@ -122,7 +129,7 @@ function CoffeeGuideInner() {
               {/* Mixer Button */}
               <button
                 onClick={() => setMixerOpen(true)}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50 transition-all flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center gap-2"
               >
                 🧪
                 <span className="hidden sm:inline">{t.mixer}</span>
@@ -131,7 +138,7 @@ function CoffeeGuideInner() {
               {/* Language Toggle */}
               <button
                 onClick={() => setLang(lang === 'de' ? 'en' : 'de')}
-                className="w-10 h-10 rounded-full bg-white border border-amber-300 text-stone-600 hover:border-gold hover:bg-amber-50 transition-all flex items-center justify-center text-sm font-medium"
+                className="w-10 h-10 rounded-full bg-white border border-stone-300 text-stone-600 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center justify-center text-sm font-medium"
               >
                 {t.language}
               </button>
@@ -139,11 +146,11 @@ function CoffeeGuideInner() {
               {/* Cart Button */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative w-10 h-10 rounded-full bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50 transition-all flex items-center justify-center"
+                className="relative w-10 h-10 rounded-full bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center justify-center"
               >
                 🛒
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-600 text-white text-xs font-bold rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -155,36 +162,18 @@ function CoffeeGuideInner() {
 
       {/* Main Content - Split Layout */}
       <main className="h-full pt-16 flex">
-        {/* Left Side - Hero Cup */}
-        <div className="w-1/2 h-full flex flex-col items-center justify-center p-8 relative">
-          <div className="flex-1 flex items-center justify-center">
-            <HeroCup coffee={selected} lang={lang} t={t} />
-          </div>
-
-          {/* Share Button */}
-          {selected && (
-            <button
-              onClick={handleShare}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full text-sm font-medium bg-white/90 backdrop-blur border border-amber-300 text-stone-700 hover:border-gold hover:bg-white transition-all flex items-center gap-2 shadow-lg"
-            >
-              {copied ? '✓' : '🔗'}
-              {copied ? t.shareCopied : t.share}
-            </button>
-          )}
-        </div>
-
-        {/* Right Side - Coffee Selection */}
-        <div className="w-1/2 h-full flex flex-col p-6 pt-4">
+        {/* Left Side - Coffee Selection */}
+        <div className="w-1/2 h-full flex flex-col p-4 pt-2 border-r border-stone-200">
           {/* Filter Pills */}
-          <div className="flex gap-2 flex-wrap mb-4 justify-center">
+          <div className="flex gap-2 flex-wrap mb-3 justify-center">
             {Object.entries(cats).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setFilter(key)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                   filter === key
-                    ? 'btn-gold'
-                    : 'bg-white/80 border border-amber-200 text-stone-600 hover:border-gold hover:bg-white'
+                    ? 'bg-amber-600 text-white shadow-md'
+                    : 'bg-white border border-stone-300 text-stone-600 hover:border-amber-600 hover:bg-amber-50'
                 }`}
               >
                 {key === 'crazy' && '🤪 '}
@@ -195,20 +184,67 @@ function CoffeeGuideInner() {
           </div>
 
           {/* Coffee Carousel */}
-          <div className="flex-1 flex items-center">
+          <div className="flex-1 flex items-center overflow-hidden">
             <CoffeeCarousel
               coffees={filtered}
               selected={selected}
-              onSelect={setSelected}
+              onSelect={handleSelectCoffee}
               lang={lang}
             />
           </div>
         </div>
+
+        {/* Right Side - Hero Cup */}
+        <div className="w-1/2 h-full flex flex-col items-center justify-center p-6 relative bg-gradient-to-br from-stone-50 to-stone-100">
+          <div className="flex-1 flex items-center justify-center overflow-y-auto">
+            <HeroCup
+              coffee={displayedCoffee}
+              lang={lang}
+              t={t}
+              isCustom={!!customCoffee}
+            />
+          </div>
+
+          {/* Share Button */}
+          {displayedCoffee && (
+            <button
+              onClick={handleShare}
+              className="absolute bottom-20 right-8 px-4 py-2 rounded-full text-sm font-medium bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center gap-2 shadow-md"
+            >
+              {copied ? '✓' : '🔗'}
+              {copied ? t.shareCopied : t.share}
+            </button>
+          )}
+        </div>
       </main>
 
+      {/* Floating AI Barista Button */}
+      <button
+        onClick={() => setBaristaOpen(true)}
+        className="fixed bottom-6 right-6 z-50 group"
+      >
+        <div className="relative">
+          {/* Pulse animation */}
+          <div className="absolute inset-0 bg-amber-500 rounded-full animate-ping opacity-25" />
+
+          {/* Main button */}
+          <div className="relative w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full shadow-xl flex items-center justify-center transform transition-all group-hover:scale-110 group-hover:shadow-2xl border-4 border-white">
+            <span className="text-3xl">🤖</span>
+          </div>
+
+          {/* Speech bubble */}
+          <div className="absolute -top-12 -left-2 bg-white rounded-xl px-3 py-1.5 shadow-lg border border-stone-200 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            <span className="text-sm font-medium text-stone-700">
+              {lang === 'de' ? 'Hey, brauchst du Hilfe?' : 'Need help?'}
+            </span>
+            <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-stone-200 transform rotate-45" />
+          </div>
+        </div>
+      </button>
+
       {/* Footer - Minimal */}
-      <footer className="absolute bottom-0 left-0 right-0 text-center py-2 text-xs text-amber-600/60">
-        {t.footer} · Powered by AI ✨
+      <footer className="absolute bottom-0 left-0 right-1/2 text-center py-2 text-xs text-stone-400">
+        {t.footer}
       </footer>
 
       {/* Modals */}
@@ -224,7 +260,8 @@ function CoffeeGuideInner() {
       <AiBarista
         isOpen={baristaOpen}
         onClose={() => setBaristaOpen(false)}
-        onSelectCoffee={setSelected}
+        onSelectCoffee={handleSelectCoffee}
+        onCustomCoffee={handleCustomCoffee}
         lang={lang}
       />
     </div>

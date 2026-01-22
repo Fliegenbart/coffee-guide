@@ -11,39 +11,14 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 50%, #fef3c7 100%);
+  background-color: #f5f5f4;
   color: #44403c;
 }
 
-/* Premium Gold Button */
-.btn-gold {
-  background: linear-gradient(135deg, #C9A227 0%, #E5C76B 50%, #C9A227 100%);
-  color: #ffffff;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3);
-}
-
-.btn-gold:hover {
-  box-shadow: 0 6px 25px rgba(201, 162, 39, 0.5);
-  transform: translateY(-2px);
-}
-
-/* Cup Glow Effect - Light Mode */
-.cup-glow-light {
-  box-shadow: 0 8px 32px rgba(217, 119, 6, 0.15),
-              0 0 40px rgba(201, 162, 39, 0.1);
-}
-
-.cup-glow-light:hover {
-  box-shadow: 0 12px 40px rgba(217, 119, 6, 0.2),
-              0 0 60px rgba(201, 162, 39, 0.15);
-}
-
-/* Steam Animation - Light Mode */
+/* Steam Animation */
 .steam {
   position: absolute;
-  background: linear-gradient(to top, rgba(201, 162, 39, 0.3), transparent);
+  background: linear-gradient(to top, rgba(120, 113, 108, 0.3), transparent);
   border-radius: 50%;
   animation: steam 2s ease-out infinite;
   opacity: 0;
@@ -151,80 +126,61 @@ body {
   }
 }
 
-/* Hover scale */
-.hover\:scale-102:hover {
-  transform: scale(1.02);
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #fef3c7;
-  border-radius: 4px;
+  background: #e7e5e4;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4a574;
-  border-radius: 4px;
+  background: #a8a29e;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A227;
+  background: #78716c;
 }
 
 /* Range slider styling */
 input[type="range"] {
   -webkit-appearance: none;
   height: 4px;
-  background: #fde68a;
+  background: #d6d3d1;
   border-radius: 2px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(135deg, #C9A227, #E5C76B);
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #d97706, #b45309);
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 /* Input styling */
 input[type="text"], textarea, select {
   background: #ffffff;
-  border: 1px solid #fde68a;
+  border: 1px solid #d6d3d1;
   color: #44403c;
   transition: all 0.3s ease;
 }
 
 input[type="text"]:focus, textarea:focus, select:focus {
-  border-color: #C9A227;
+  border-color: #d97706;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
-}
-
-/* Pulse animation */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.animate-pulse {
-  animation: pulse 0.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
 }
 
 /* Typing animation for chat */
@@ -237,7 +193,7 @@ input[type="text"]:focus, textarea:focus, select:focus {
 .typing-indicator span {
   width: 8px;
   height: 8px;
-  background: #C9A227;
+  background: #78716c;
   border-radius: 50%;
   animation: typing 1.4s infinite ease-in-out;
 }
@@ -265,20 +221,9 @@ input[type="text"]:focus, textarea:focus, select:focus {
   }
 }
 
-/* Chat message bubble - Light Mode */
-.chat-bubble-user-light {
-  background: linear-gradient(135deg, #C9A227 0%, #9A7B1D 100%);
-  color: #ffffff;
-}
-
-.chat-bubble-ai-light {
-  background: #ffffff;
-  border: 1px solid #fde68a;
-}
-
 /* Selection color */
 ::selection {
-  background: rgba(201, 162, 39, 0.3);
+  background: rgba(217, 119, 6, 0.2);
   color: #44403c;
 }
 
@@ -288,4 +233,16 @@ input[type="text"]:focus, textarea:focus, select:focus {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Ping animation override for smoother effect */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }

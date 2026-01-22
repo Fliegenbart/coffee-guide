@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ingredients } from '../data/ingredients';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 16;
 
 export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -32,22 +32,22 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
 
   return (
     <div className="w-full h-full flex flex-col">
-      {/* Coffee Grid */}
-      <div className="flex-1 flex items-center justify-center">
-        <div className="grid grid-cols-4 gap-3 w-full max-w-lg">
+      {/* Coffee Grid - 4x4 */}
+      <div className="flex-1 flex items-center justify-center px-2">
+        <div className="grid grid-cols-4 gap-2 w-full">
           {paginatedCoffees.map((coffee) => (
             <button
               key={coffee.id}
               onClick={() => onSelect(coffee)}
-              className={`group flex flex-col items-center p-3 rounded-xl transition-all ${
+              className={`group flex flex-col items-center p-2 rounded-xl transition-all ${
                 selected?.id === coffee.id
-                  ? 'bg-white scale-105 shadow-lg border-2 border-gold'
-                  : 'bg-white/60 hover:bg-white hover:shadow-md border-2 border-transparent hover:border-amber-200'
+                  ? 'bg-white scale-105 shadow-lg ring-2 ring-amber-500'
+                  : 'bg-white/70 hover:bg-white hover:shadow-md'
               }`}
             >
               {/* Mini Cup */}
-              <div className="relative w-10 h-12 flex flex-col justify-end">
-                <div className="w-8 mx-auto rounded-b-lg overflow-hidden bg-white shadow border border-amber-200 h-9">
+              <div className="relative w-8 h-10 flex flex-col justify-end">
+                <div className="w-7 mx-auto rounded-b-md overflow-hidden bg-white shadow border border-stone-200 h-8">
                   <div className="h-full flex flex-col-reverse">
                     {coffee.layers.map((layer, i) => (
                       <div
@@ -62,10 +62,10 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
                   </div>
                 </div>
                 {/* Mini Handle */}
-                <div className="absolute -right-0.5 top-1/2 -translate-y-1/3 w-1 h-3 border border-amber-300 rounded-r-full bg-transparent" />
+                <div className="absolute -right-0.5 top-1/2 -translate-y-1/3 w-1 h-2.5 border border-stone-300 rounded-r-full bg-transparent" />
                 {/* Badge */}
                 {coffee.note && (
-                  <span className="absolute -top-1 -right-2 text-[7px] bg-gold text-white px-1 rounded font-medium">
+                  <span className="absolute -top-1 -right-1.5 text-[6px] bg-amber-500 text-white px-0.5 rounded font-bold">
                     {coffee.note}
                   </span>
                 )}
@@ -73,9 +73,9 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
 
               {/* Name */}
               <span
-                className={`mt-2 text-[10px] text-center leading-tight transition-colors line-clamp-2 ${
+                className={`mt-1.5 text-[9px] text-center leading-tight transition-colors line-clamp-2 w-full ${
                   selected?.id === coffee.id
-                    ? 'text-gold font-semibold'
+                    ? 'text-amber-700 font-semibold'
                     : 'text-stone-600 group-hover:text-stone-800'
                 }`}
               >
@@ -83,30 +83,35 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
               </span>
             </button>
           ))}
+
+          {/* Fill empty slots for consistent grid */}
+          {Array.from({ length: Math.max(0, ITEMS_PER_PAGE - paginatedCoffees.length) }).map((_, i) => (
+            <div key={`empty-${i}`} className="p-2" />
+          ))}
         </div>
       </div>
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4 mt-4">
+        <div className="flex items-center justify-center gap-3 mt-2 pb-2">
           {/* Previous Button */}
           <button
             onClick={prevPage}
-            className="w-10 h-10 rounded-full bg-white/80 border border-amber-200 text-stone-600 hover:bg-white hover:border-gold hover:text-gold transition-all flex items-center justify-center shadow-sm"
+            className="w-8 h-8 rounded-full bg-white border border-stone-300 text-stone-600 hover:bg-stone-50 hover:border-amber-500 transition-all flex items-center justify-center shadow-sm text-sm"
           >
             ←
           </button>
 
           {/* Page Dots */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => goToPage(i)}
-                className={`transition-all ${
+                className={`transition-all rounded-full ${
                   currentPage === i
-                    ? 'w-8 h-3 bg-gold rounded-full'
-                    : 'w-3 h-3 bg-amber-200 rounded-full hover:bg-amber-300'
+                    ? 'w-6 h-2 bg-amber-500'
+                    : 'w-2 h-2 bg-stone-300 hover:bg-stone-400'
                 }`}
               />
             ))}
@@ -115,17 +120,17 @@ export default function CoffeeCarousel({ coffees, selected, onSelect, lang }) {
           {/* Next Button */}
           <button
             onClick={nextPage}
-            className="w-10 h-10 rounded-full bg-white/80 border border-amber-200 text-stone-600 hover:bg-white hover:border-gold hover:text-gold transition-all flex items-center justify-center shadow-sm"
+            className="w-8 h-8 rounded-full bg-white border border-stone-300 text-stone-600 hover:bg-stone-50 hover:border-amber-500 transition-all flex items-center justify-center shadow-sm text-sm"
           >
             →
           </button>
+
+          {/* Page Counter */}
+          <span className="text-xs text-stone-400 ml-2">
+            {currentPage + 1}/{totalPages}
+          </span>
         </div>
       )}
-
-      {/* Page Indicator */}
-      <div className="text-center mt-2 text-xs text-stone-400">
-        {currentPage + 1} / {totalPages}
-      </div>
     </div>
   );
 }

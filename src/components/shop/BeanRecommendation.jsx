@@ -68,7 +68,7 @@ export default function BeanRecommendation({ coffeeId, lang, t }) {
           {recommendedBeans.map(bean => (
             <div
               key={bean.id}
-              className="bg-white/90 backdrop-blur rounded-xl p-3 border border-amber-200 hover:border-gold transition-colors shadow-sm"
+              className="bg-white rounded-xl p-3 border border-stone-200 hover:border-amber-400 transition-colors shadow-sm"
             >
               <div className="flex items-start gap-3">
                 <div className="w-9 h-9 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg flex items-center justify-center text-white text-sm shadow">
@@ -85,13 +85,13 @@ export default function BeanRecommendation({ coffeeId, lang, t }) {
                     <select
                       value={selectedSize}
                       onChange={(e) => setSelectedSize(e.target.value)}
-                      className="text-xs bg-white border border-amber-200 rounded px-2 py-0.5 text-stone-600 focus:border-gold focus:outline-none"
+                      className="text-xs bg-stone-50 border border-stone-200 rounded px-2 py-0.5 text-stone-600 focus:border-amber-500 focus:outline-none"
                     >
                       {Object.keys(bean.prices).map(size => (
                         <option key={size} value={size}>{size}</option>
                       ))}
                     </select>
-                    <span className="text-sm font-medium text-gold">
+                    <span className="text-sm font-medium text-amber-600">
                       €{bean.prices[selectedSize].toFixed(2)}
                     </span>
                   </div>
@@ -101,7 +101,7 @@ export default function BeanRecommendation({ coffeeId, lang, t }) {
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                     addedItems[`${bean.id}-${selectedSize}`]
                       ? 'bg-green-500 text-white'
-                      : 'btn-gold'
+                      : 'bg-amber-500 text-white hover:bg-amber-600'
                   }`}
                 >
                   {addedItems[`${bean.id}-${selectedSize}`] ? '✓' : '+'}
@@ -124,12 +124,12 @@ export default function BeanRecommendation({ coffeeId, lang, t }) {
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border transition-all ${
                   addedItems[sirup.id]
                     ? 'bg-green-50 border-green-300 text-green-700'
-                    : 'bg-white/80 border-amber-200 text-stone-600 hover:border-gold hover:bg-white'
+                    : 'bg-white border-stone-200 text-stone-600 hover:border-amber-400 hover:bg-amber-50'
                 }`}
               >
                 <span>🍯</span>
                 <span>{sirup.name[lang]}</span>
-                <span className="text-amber-500">+€{sirup.price.toFixed(2)}</span>
+                <span className="text-stone-400">+€{sirup.price.toFixed(2)}</span>
                 {addedItems[sirup.id] && <span>✓</span>}
               </button>
             ))}
@@ -140,12 +140,12 @@ export default function BeanRecommendation({ coffeeId, lang, t }) {
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border transition-all ${
                   addedItems[acc.id]
                     ? 'bg-green-50 border-green-300 text-green-700'
-                    : 'bg-white/80 border-amber-200 text-stone-600 hover:border-gold hover:bg-white'
+                    : 'bg-white border-stone-200 text-stone-600 hover:border-amber-400 hover:bg-amber-50'
                 }`}
               >
                 <span>☕</span>
                 <span>{acc.name[lang]}</span>
-                <span className="text-amber-500">+€{acc.price.toFixed(2)}</span>
+                <span className="text-stone-400">+€{acc.price.toFixed(2)}</span>
                 {addedItems[acc.id] && <span>✓</span>}
               </button>
             ))}
