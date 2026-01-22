@@ -141,26 +141,26 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, onCustomCof
 
   const labels = {
     de: {
-      title: 'Beans - KI-Barista',
-      subtitle: 'Dein frecher Kaffee-Buddy',
+      title: 'Beans',
+      subtitle: 'KI-Barista',
       placeholder: 'Sag mir was du willst...',
-      showCoffee: 'Diese Kreation zeigen',
-      suggestions: ['Ich bin mega müde!', 'Was Süßes bitte!', 'Überrasch mich!', 'Etwas Verrücktes!'],
-      apiKeyLabel: 'Anthropic API Key (optional)',
+      showCoffee: 'Zeigen',
+      suggestions: ['Ich bin müde!', 'Was Süßes!', 'Überrasch mich!'],
+      apiKeyLabel: 'Anthropic API Key',
       apiKeyPlaceholder: 'sk-ant-...',
-      apiKeySave: 'Speichern',
-      noApiHint: 'Ohne API-Key gibt\'s Standard-Empfehlungen. Mit API wird\'s richtig lustig! 🎉'
+      apiKeySave: 'OK',
+      noApiHint: 'Ohne API-Key gibt\'s Standard-Empfehlungen'
     },
     en: {
-      title: 'Beans - AI Barista',
-      subtitle: 'Your cheeky coffee buddy',
+      title: 'Beans',
+      subtitle: 'AI Barista',
       placeholder: 'Tell me what you want...',
-      showCoffee: 'Show this creation',
-      suggestions: ['I\'m super tired!', 'Something sweet!', 'Surprise me!', 'Something crazy!'],
-      apiKeyLabel: 'Anthropic API Key (optional)',
+      showCoffee: 'Show',
+      suggestions: ['I\'m tired!', 'Something sweet!', 'Surprise me!'],
+      apiKeyLabel: 'Anthropic API Key',
       apiKeyPlaceholder: 'sk-ant-...',
-      apiKeySave: 'Save',
-      noApiHint: 'Without API key you get standard recommendations. With API it gets really fun! 🎉'
+      apiKeySave: 'OK',
+      noApiHint: 'Without API key you get standard recommendations'
     }
   };
 
@@ -262,138 +262,147 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, onCustomCof
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
-      <div className="absolute inset-0" onClick={onClose} />
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden animate-slideUp border border-stone-200">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-stone-200 bg-gradient-to-r from-amber-500 to-orange-500">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl shadow-lg">
-              🤖
-            </div>
-            <div>
-              <h2 className="font-bold text-white">{l.title}</h2>
-              <span className="text-xs text-amber-100">{l.subtitle}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowApiInput(!showApiInput)}
-              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
-              title="API Settings"
-            >
-              ⚙️
-            </button>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
+    <>
+      {/* Backdrop - only covers left part to keep robot visible */}
+      <div
+        className="fixed inset-0 z-40"
+        onClick={onClose}
+      />
 
-        {/* API Key Input */}
-        {showApiInput && (
-          <div className="p-3 bg-amber-50 border-b border-amber-200">
-            <label className="text-xs text-amber-800 font-medium block mb-1">{l.apiKeyLabel}</label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder={l.apiKeyPlaceholder}
-                className="flex-1 px-3 py-2 text-sm rounded-lg border border-amber-300 focus:border-amber-500 focus:outline-none"
-              />
+      {/* Speech Bubble Chat - positioned above the robot button */}
+      <div className="fixed bottom-24 right-4 z-50 w-80 max-w-[calc(100vw-2rem)] animate-slideUp">
+        {/* Speech bubble with pointer */}
+        <div className="relative bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden">
+          {/* Pointer triangle pointing down-right to the robot */}
+          <div className="absolute -bottom-3 right-8 w-6 h-6 bg-white border-r border-b border-stone-200 transform rotate-45" />
+
+          {/* Header */}
+          <div className="flex items-center justify-between p-3 border-b border-stone-100 bg-gradient-to-r from-amber-500 to-orange-500">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🤖</span>
+              <div>
+                <h2 className="font-bold text-white text-sm">{l.title}</h2>
+                <span className="text-[10px] text-amber-100">{l.subtitle}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
               <button
-                onClick={saveApiKey}
-                className="px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition-colors"
+                onClick={() => setShowApiInput(!showApiInput)}
+                className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors text-xs"
+                title="API Settings"
               >
-                {l.apiKeySave}
+                ⚙
+              </button>
+              <button
+                onClick={onClose}
+                className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
+              >
+                ✕
               </button>
             </div>
-            <p className="text-xs text-amber-600 mt-1">{l.noApiHint}</p>
           </div>
-        )}
 
-        {/* Messages */}
-        <div className="h-72 overflow-y-auto p-4 space-y-4 bg-stone-50">
-          {messages.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                msg.role === 'user'
-                  ? 'bg-amber-500 text-white'
-                  : 'bg-white border border-stone-200 text-stone-700'
-              }`}>
-                <p className="text-sm whitespace-pre-wrap">
-                  {msg.text.split('**').map((part, j) =>
-                    j % 2 === 1 ? <strong key={j} className={msg.role === 'user' ? 'text-white' : 'text-amber-600'}>{part}</strong> : part
-                  )}
-                </p>
-                {msg.coffee && (
-                  <button
-                    onClick={() => handleCoffeeClick(msg.coffee, msg.isCustom)}
-                    className="mt-2 text-xs bg-amber-500 text-white px-3 py-1.5 rounded-full font-medium hover:bg-amber-600 transition-colors"
-                  >
-                    {l.showCoffee} →
-                  </button>
-                )}
+          {/* API Key Input */}
+          {showApiInput && (
+            <div className="p-2 bg-amber-50 border-b border-amber-200">
+              <div className="flex gap-1">
+                <input
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder={l.apiKeyPlaceholder}
+                  className="flex-1 px-2 py-1 text-xs rounded border border-amber-300 focus:border-amber-500 focus:outline-none"
+                />
+                <button
+                  onClick={saveApiKey}
+                  className="px-2 py-1 bg-amber-500 text-white text-xs font-medium rounded hover:bg-amber-600 transition-colors"
+                >
+                  {l.apiKeySave}
+                </button>
               </div>
-            </div>
-          ))}
-
-          {isTyping && (
-            <div className="flex justify-start">
-              <div className="bg-white border border-stone-200 rounded-2xl">
-                <div className="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
+              <p className="text-[10px] text-amber-600 mt-1">{l.noApiHint}</p>
             </div>
           )}
-          <div ref={messagesEndRef} />
-        </div>
 
-        {/* Quick suggestions */}
-        <div className="px-4 pb-2 pt-2 flex gap-2 overflow-x-auto border-t border-stone-100">
-          {l.suggestions.map((suggestion, i) => (
-            <button
-              key={i}
-              onClick={() => handleSend(suggestion)}
-              className="whitespace-nowrap text-xs px-3 py-1.5 rounded-full border border-stone-300 text-stone-600 hover:border-amber-500 hover:text-amber-600 hover:bg-amber-50 transition-colors"
-            >
-              {suggestion}
-            </button>
-          ))}
-        </div>
+          {/* Messages */}
+          <div className="h-52 overflow-y-auto p-3 space-y-2 bg-stone-50">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] rounded-xl px-3 py-2 ${
+                  msg.role === 'user'
+                    ? 'bg-amber-500 text-white text-sm'
+                    : 'bg-white border border-stone-200 text-stone-700 text-sm'
+                }`}>
+                  <p className="whitespace-pre-wrap text-xs">
+                    {msg.text.split('**').map((part, j) =>
+                      j % 2 === 1 ? <strong key={j} className={msg.role === 'user' ? 'text-white' : 'text-amber-600'}>{part}</strong> : part
+                    )}
+                  </p>
+                  {msg.coffee && (
+                    <button
+                      onClick={() => handleCoffeeClick(msg.coffee, msg.isCustom)}
+                      className="mt-1 text-[10px] bg-amber-500 text-white px-2 py-1 rounded-full font-medium hover:bg-amber-600 transition-colors"
+                    >
+                      {l.showCoffee} →
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
 
-        {/* Input */}
-        <div className="p-4 border-t border-stone-200 bg-white">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder={l.placeholder}
-              className="flex-1 px-4 py-3 bg-stone-100 rounded-xl text-stone-700 placeholder-stone-400 border-0 focus:outline-none focus:ring-2 focus:ring-amber-500"
-            />
-            <button
-              onClick={() => handleSend()}
-              disabled={!input.trim() || isTyping}
-              className={`px-4 rounded-xl transition-all ${
-                input.trim() && !isTyping
-                  ? 'bg-amber-500 text-white hover:bg-amber-600'
-                  : 'bg-stone-200 text-stone-400 cursor-not-allowed'
-              }`}
-            >
-              📤
-            </button>
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-white border border-stone-200 rounded-xl px-3 py-2">
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Quick suggestions */}
+          <div className="px-2 py-1.5 flex gap-1 overflow-x-auto border-t border-stone-100 bg-white">
+            {l.suggestions.map((suggestion, i) => (
+              <button
+                key={i}
+                onClick={() => handleSend(suggestion)}
+                className="whitespace-nowrap text-[10px] px-2 py-1 rounded-full border border-stone-200 text-stone-600 hover:border-amber-500 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+
+          {/* Input */}
+          <div className="p-2 border-t border-stone-200 bg-white">
+            <div className="flex gap-1">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder={l.placeholder}
+                className="flex-1 px-3 py-2 bg-stone-100 rounded-lg text-stone-700 placeholder-stone-400 border-0 focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs"
+              />
+              <button
+                onClick={() => handleSend()}
+                disabled={!input.trim() || isTyping}
+                className={`px-3 rounded-lg transition-all ${
+                  input.trim() && !isTyping
+                    ? 'bg-amber-500 text-white hover:bg-amber-600'
+                    : 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                }`}
+              >
+                📤
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
