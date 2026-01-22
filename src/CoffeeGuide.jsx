@@ -163,52 +163,82 @@ function CoffeeGuideInner() {
         backgroundSize: '24px 24px'
       }} />
 
-      {/* Header - Fixed */}
-      <header className="absolute top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
+      {/* Header - Apple/Jony Ive Style */}
+      <header className="absolute top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-stone-200/50">
+        <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-700 to-amber-900 flex items-center justify-center shadow-lg">
-                <span className="text-lg">☕</span>
+            {/* Abstract Modern Logo */}
+            <div className="flex items-center gap-4">
+              {/* Abstract Coffee Cup Logo - SVG */}
+              <div className="relative w-12 h-12">
+                <svg viewBox="0 0 48 48" className="w-full h-full">
+                  {/* Abstract geometric coffee representation */}
+                  <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#f59e0b" />
+                      <stop offset="50%" stopColor="#d97706" />
+                      <stop offset="100%" stopColor="#92400e" />
+                    </linearGradient>
+                    <linearGradient id="steamGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                      <stop offset="0%" stopColor="#d97706" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#fbbf24" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {/* Steam curves */}
+                  <path d="M18 8 Q20 4 18 0" stroke="url(#steamGradient)" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6">
+                    <animate attributeName="d" values="M18 8 Q20 4 18 0;M18 8 Q16 4 18 0;M18 8 Q20 4 18 0" dur="2s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M24 10 Q26 5 24 1" stroke="url(#steamGradient)" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8">
+                    <animate attributeName="d" values="M24 10 Q26 5 24 1;M24 10 Q22 5 24 1;M24 10 Q26 5 24 1" dur="2.5s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M30 8 Q32 4 30 0" stroke="url(#steamGradient)" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6">
+                    <animate attributeName="d" values="M30 8 Q32 4 30 0;M30 8 Q28 4 30 0;M30 8 Q32 4 30 0" dur="1.8s" repeatCount="indefinite"/>
+                  </path>
+                  {/* Cup body - abstract geometric */}
+                  <path d="M8 16 L8 38 Q8 44 16 44 L32 44 Q40 44 40 38 L40 16 Z" fill="url(#logoGradient)" />
+                  {/* Cup liquid surface */}
+                  <ellipse cx="24" cy="18" rx="14" ry="4" fill="#fef3c7" opacity="0.4"/>
+                  {/* Handle - minimal */}
+                  <path d="M40 22 Q48 22 48 30 Q48 38 40 38" stroke="url(#logoGradient)" strokeWidth="4" fill="none" strokeLinecap="round"/>
+                </svg>
               </div>
               <div>
-                <h1 className="text-xl font-display font-semibold text-stone-800 tracking-wide">
+                <h1 className="text-2xl font-display font-semibold text-stone-900 tracking-tight">
                   {t.title}
                 </h1>
-                <p className="text-stone-500 text-xs">{coffees.length} {t.subtitle}</p>
+                <p className="text-stone-400 text-sm font-light mt-0.5">{coffees.length} {t.subtitle}</p>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2">
+            {/* Action Buttons - Refined */}
+            <div className="flex items-center gap-3">
               {/* Surprise Me Button */}
               <button
                 onClick={handleSurpriseMe}
                 disabled={isSpinning}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
                   isSpinning
-                    ? 'bg-amber-600 text-white animate-pulse'
-                    : 'bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25'
+                    : 'bg-stone-900 text-white hover:bg-stone-800'
                 }`}
               >
-                {isSpinning ? '🎰' : '🎲'}
+                <span className={isSpinning ? 'animate-spin' : ''}>{isSpinning ? '◐' : '↻'}</span>
                 <span className="hidden sm:inline">{t.surpriseMe}</span>
               </button>
 
               {/* Mixer Button */}
               <button
                 onClick={() => setMixerOpen(true)}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center gap-2"
+                className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-stone-200 text-stone-700 hover:border-stone-400 hover:shadow-sm transition-all flex items-center gap-2"
               >
-                🧪
+                <span className="text-base">◎</span>
                 <span className="hidden sm:inline">{t.mixer}</span>
               </button>
 
               {/* Language Toggle */}
               <button
                 onClick={() => setLang(lang === 'de' ? 'en' : 'de')}
-                className="w-10 h-10 rounded-full bg-white border border-stone-300 text-stone-600 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center justify-center text-sm font-medium"
+                className="w-11 h-11 rounded-full bg-white border border-stone-200 text-stone-600 hover:border-stone-400 hover:shadow-sm transition-all flex items-center justify-center text-sm font-semibold"
               >
                 {t.language}
               </button>
@@ -216,11 +246,13 @@ function CoffeeGuideInner() {
               {/* Cart Button */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative w-10 h-10 rounded-full bg-white border border-stone-300 text-stone-700 hover:border-amber-600 hover:bg-amber-50 transition-all flex items-center justify-center"
+                className="relative w-11 h-11 rounded-full bg-white border border-stone-200 text-stone-700 hover:border-stone-400 hover:shadow-sm transition-all flex items-center justify-center"
               >
-                🛒
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-600 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -231,7 +263,7 @@ function CoffeeGuideInner() {
       </header>
 
       {/* Main Content - Split Layout */}
-      <main className="h-full pt-16 flex">
+      <main className="h-full pt-20 flex">
         {/* Left Side - Coffee Selection */}
         <div className="w-1/2 h-full flex flex-col p-4 pt-2 border-r border-stone-200">
           {/* Filter Pills */}
