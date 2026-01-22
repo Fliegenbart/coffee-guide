@@ -6,7 +6,7 @@ import CoffeeGrid from './components/CoffeeGrid';
 import CoffeeMixer from './components/CoffeeMixer';
 
 export default function CoffeeGuide() {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(() => coffees[0]);
   const [filter, setFilter] = useState('all');
   const [lang, setLang] = useState('de');
   const [mixerOpen, setMixerOpen] = useState(false);
@@ -69,7 +69,7 @@ export default function CoffeeGuide() {
     <div className="min-h-screen bg-gradient-to-br from-stone-100 to-stone-200">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-light text-stone-800 tracking-wide">{t.title}</h1>
@@ -108,7 +108,7 @@ export default function CoffeeGuide() {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex gap-2 mt-4 flex-wrap">
+          <div className="flex gap-2 mt-3 flex-wrap">
             {Object.entries(cats).map(([key, label]) => (
               <button
                 key={key}
@@ -129,8 +129,8 @@ export default function CoffeeGuide() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <main className="max-w-7xl mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left: Coffee Grid */}
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-stone-200/50">
             <CoffeeGrid
@@ -142,8 +142,8 @@ export default function CoffeeGuide() {
           </div>
 
           {/* Right: Hero Cup */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/50 min-h-[500px] flex flex-col">
-            <div className="flex-1 flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200/50 flex flex-col lg:sticky lg:top-28">
+            <div className="flex items-start justify-center pt-2">
               <HeroCup coffee={selected} lang={lang} t={t} />
             </div>
 
