@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { coffees, categories } from './data/coffees';
 import { translations } from './i18n/translations';
 import HeroCup from './components/HeroCup';
-import CoffeeGrid from './components/CoffeeGrid';
+import CoffeeCarousel from './components/CoffeeCarousel';
 import CoffeeMixer from './components/CoffeeMixer';
 import Cart from './components/shop/Cart';
 import AiBarista from './components/AiBarista';
+import FloatingBeans from './components/FloatingBeans';
 import { CartProvider, useCart } from './context/CartContext';
 
 function CoffeeGuideInner() {
@@ -69,21 +70,27 @@ function CoffeeGuideInner() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-primary">
-      {/* Header */}
-      <header className="glass-card border-b border-dark-border sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative">
+      {/* Animated Background Beans */}
+      <FloatingBeans />
+
+      {/* Gold Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-gold/10 pointer-events-none" />
+
+      {/* Header - Fixed */}
+      <header className="absolute top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-amber-200/50">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center shadow-gold-glow">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center shadow-lg">
                 <span className="text-lg">☕</span>
               </div>
               <div>
-                <h1 className="text-xl font-display font-semibold text-white tracking-wide">
+                <h1 className="text-xl font-display font-semibold text-stone-800 tracking-wide">
                   {t.title}
                 </h1>
-                <p className="text-gray-500 text-xs">{coffees.length} {t.subtitle}</p>
+                <p className="text-amber-600 text-xs">{coffees.length} {t.subtitle}</p>
               </div>
             </div>
 
@@ -104,8 +111,8 @@ function CoffeeGuideInner() {
                 disabled={isSpinning}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
                   isSpinning
-                    ? 'bg-gold text-dark-primary animate-pulse'
-                    : 'bg-dark-card border border-dark-border text-white hover:border-gold'
+                    ? 'bg-gold text-white animate-pulse'
+                    : 'bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50'
                 }`}
               >
                 {isSpinning ? '🎰' : '🎲'}
@@ -115,7 +122,7 @@ function CoffeeGuideInner() {
               {/* Mixer Button */}
               <button
                 onClick={() => setMixerOpen(true)}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-dark-card border border-dark-border text-white hover:border-gold transition-all flex items-center gap-2"
+                className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50 transition-all flex items-center gap-2"
               >
                 🧪
                 <span className="hidden sm:inline">{t.mixer}</span>
@@ -124,7 +131,7 @@ function CoffeeGuideInner() {
               {/* Language Toggle */}
               <button
                 onClick={() => setLang(lang === 'de' ? 'en' : 'de')}
-                className="w-10 h-10 rounded-full bg-dark-card border border-dark-border text-gray-400 hover:border-gold hover:text-white transition-all flex items-center justify-center text-sm font-medium"
+                className="w-10 h-10 rounded-full bg-white border border-amber-300 text-stone-600 hover:border-gold hover:bg-amber-50 transition-all flex items-center justify-center text-sm font-medium"
               >
                 {t.language}
               </button>
@@ -132,11 +139,11 @@ function CoffeeGuideInner() {
               {/* Cart Button */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative w-10 h-10 rounded-full bg-dark-card border border-dark-border text-white hover:border-gold transition-all flex items-center justify-center"
+                className="relative w-10 h-10 rounded-full bg-white border border-amber-300 text-stone-700 hover:border-gold hover:bg-amber-50 transition-all flex items-center justify-center"
               >
                 🛒
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-dark-primary text-xs font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-white text-xs font-bold rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -146,68 +153,62 @@ function CoffeeGuideInner() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 py-6">
-        <div className="glass-card rounded-2xl p-6 gold-border">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Hero Cup */}
-            <div className="flex-1 flex justify-center">
-              <HeroCup coffee={selected} lang={lang} t={t} />
-            </div>
+      {/* Main Content - Split Layout */}
+      <main className="h-full pt-16 flex">
+        {/* Left Side - Hero Cup */}
+        <div className="w-1/2 h-full flex flex-col items-center justify-center p-8 relative">
+          <div className="flex-1 flex items-center justify-center">
+            <HeroCup coffee={selected} lang={lang} t={t} />
+          </div>
 
-            {/* Share Button */}
-            {selected && (
-              <div className="flex lg:flex-col justify-center items-center gap-4">
-                <button
-                  onClick={handleShare}
-                  className="px-6 py-2 rounded-full text-sm font-medium bg-dark-card border border-dark-border text-white hover:border-gold transition-all flex items-center gap-2"
-                >
-                  {copied ? '✓' : '🔗'}
-                  {copied ? t.shareCopied : t.share}
-                </button>
-              </div>
-            )}
+          {/* Share Button */}
+          {selected && (
+            <button
+              onClick={handleShare}
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full text-sm font-medium bg-white/90 backdrop-blur border border-amber-300 text-stone-700 hover:border-gold hover:bg-white transition-all flex items-center gap-2 shadow-lg"
+            >
+              {copied ? '✓' : '🔗'}
+              {copied ? t.shareCopied : t.share}
+            </button>
+          )}
+        </div>
+
+        {/* Right Side - Coffee Selection */}
+        <div className="w-1/2 h-full flex flex-col p-6 pt-4">
+          {/* Filter Pills */}
+          <div className="flex gap-2 flex-wrap mb-4 justify-center">
+            {Object.entries(cats).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  filter === key
+                    ? 'btn-gold'
+                    : 'bg-white/80 border border-amber-200 text-stone-600 hover:border-gold hover:bg-white'
+                }`}
+              >
+                {key === 'crazy' && '🤪 '}
+                {key === 'decaf' && '😴 '}
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Coffee Carousel */}
+          <div className="flex-1 flex items-center">
+            <CoffeeCarousel
+              coffees={filtered}
+              selected={selected}
+              onSelect={setSelected}
+              lang={lang}
+            />
           </div>
         </div>
-      </section>
+      </main>
 
-      {/* Filter Pills */}
-      <section className="max-w-7xl mx-auto px-4 pb-4">
-        <div className="flex gap-2 flex-wrap">
-          {Object.entries(cats).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setFilter(key)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                filter === key
-                  ? 'btn-gold'
-                  : 'bg-dark-card border border-dark-border text-gray-400 hover:border-gold hover:text-white'
-              }`}
-            >
-              {key === 'crazy' && '🤪 '}
-              {key === 'decaf' && '😴 '}
-              {label}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Coffee Grid */}
-      <section className="max-w-7xl mx-auto px-4 pb-8">
-        <div className="glass-card rounded-2xl p-4">
-          <CoffeeGrid
-            coffees={filtered}
-            selected={selected}
-            onSelect={setSelected}
-            lang={lang}
-          />
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="text-center py-8 border-t border-dark-border">
-        <p className="text-gray-600 text-sm">{t.footer}</p>
-        <p className="text-gold text-xs mt-2">Powered by AI ✨</p>
+      {/* Footer - Minimal */}
+      <footer className="absolute bottom-0 left-0 right-0 text-center py-2 text-xs text-amber-600/60">
+        {t.footer} · Powered by AI ✨
       </footer>
 
       {/* Modals */}

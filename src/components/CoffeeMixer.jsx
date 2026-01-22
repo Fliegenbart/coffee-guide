@@ -53,18 +53,18 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div
         className="absolute inset-0"
         onClick={onClose}
       />
-      <div className="relative bg-dark-secondary rounded-2xl max-w-lg w-full max-h-[90vh] overflow-auto shadow-2xl border border-dark-border animate-slideUp">
+      <div className="relative bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-auto shadow-2xl border border-amber-200 animate-slideUp">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-border bg-dark-card">
-          <h2 className="text-xl font-semibold text-white">{t.mixerTitle}</h2>
+        <div className="flex items-center justify-between p-4 border-b border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
+          <h2 className="text-xl font-semibold text-stone-800">{t.mixerTitle}</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-dark-elevated text-gray-400 hover:text-white transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-amber-100 text-stone-500 hover:text-stone-700 transition-colors"
           >
             ✕
           </button>
@@ -73,23 +73,23 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
         <div className="p-4">
           {/* Name input */}
           <div className="mb-4">
-            <label className="text-sm text-gray-400 block mb-1">{t.mixerName}</label>
+            <label className="text-sm text-stone-600 block mb-1">{t.mixerName}</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t.mixerNamePlaceholder}
-              className="w-full px-3 py-2 bg-dark-primary border border-dark-border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+              className="w-full px-3 py-2 bg-white border border-amber-200 rounded-lg text-stone-700 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
             />
           </div>
 
           {/* Preview cup */}
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <div className="w-24 h-32 rounded-b-2xl overflow-hidden bg-dark-elevated shadow-card border border-dark-border cup-glow">
+              <div className="w-24 h-32 rounded-b-2xl overflow-hidden bg-white shadow-lg border-2 border-amber-200 cup-glow-light">
                 <div className="h-full flex flex-col-reverse">
                   {layers.length === 0 ? (
-                    <div className="h-full flex items-center justify-center text-gray-500 text-xs text-center px-2">
+                    <div className="h-full flex items-center justify-center text-stone-300 text-xs text-center px-2">
                       {t.mixerEmpty}
                     </div>
                   ) : (
@@ -106,24 +106,24 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
                   )}
                 </div>
               </div>
-              <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-8 border-2 border-dark-border rounded-r-full bg-transparent" />
+              <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-8 border-2 border-amber-300 rounded-r-full bg-transparent" />
             </div>
           </div>
 
           {/* Current layers */}
           {layers.length > 0 && (
             <div className="mb-4 space-y-2">
-              <div className="flex items-center justify-between text-sm text-gray-400">
+              <div className="flex items-center justify-between text-sm text-stone-500">
                 <span>{t.mixerIngredients}</span>
-                <span className="text-gold">{totalUsed}% / 100%</span>
+                <span className="text-gold font-medium">{totalUsed}% / 100%</span>
               </div>
               {layers.map((layer, i) => (
-                <div key={i} className="flex items-center gap-2 bg-dark-card rounded-lg p-2 border border-dark-border">
+                <div key={i} className="flex items-center gap-2 bg-amber-50 rounded-lg p-2 border border-amber-200">
                   <div
-                    className="w-4 h-4 rounded-full border border-dark-border shadow-sm"
+                    className="w-4 h-4 rounded-full border border-amber-300 shadow-sm"
                     style={{ backgroundColor: ingredients[layer.type]?.color }}
                   />
-                  <span className="text-sm text-gray-300 flex-1">
+                  <span className="text-sm text-stone-700 flex-1">
                     {ingredientLabels[lang][layer.type]}
                   </span>
                   <input
@@ -137,7 +137,7 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
                   <span className="text-xs text-gold w-8 font-mono">{layer.ratio}%</span>
                   <button
                     onClick={() => removeLayer(i)}
-                    className="text-gray-500 hover:text-red-400 transition-colors"
+                    className="text-stone-400 hover:text-red-500 transition-colors"
                   >
                     ✕
                   </button>
@@ -149,7 +149,7 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
           {/* Add ingredients */}
           {layers.length < 5 && (
             <div className="mb-4">
-              <p className="text-sm text-gray-400 mb-2">
+              <p className="text-sm text-stone-500 mb-2">
                 {t.mixerAdd} ({t.mixerMax})
               </p>
               <div className="flex flex-wrap gap-2">
@@ -160,12 +160,12 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
                     disabled={layers.some((l) => l.type === type)}
                     className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs border transition-all ${
                       layers.some((l) => l.type === type)
-                        ? 'bg-dark-elevated text-gray-600 border-dark-border cursor-not-allowed'
-                        : 'bg-dark-card text-gray-300 border-dark-border hover:border-gold hover:text-gold'
+                        ? 'bg-stone-100 text-stone-400 border-stone-200 cursor-not-allowed'
+                        : 'bg-white text-stone-600 border-amber-200 hover:border-gold hover:bg-amber-50'
                     }`}
                   >
                     <div
-                      className="w-3 h-3 rounded-full border border-dark-border"
+                      className="w-3 h-3 rounded-full border border-amber-300"
                       style={{ backgroundColor: ingredients[type]?.color }}
                     />
                     {ingredientLabels[lang][type]}
@@ -179,7 +179,7 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
           <div className="flex gap-2">
             <button
               onClick={reset}
-              className="flex-1 px-4 py-2 border border-dark-border rounded-lg text-gray-400 hover:bg-dark-card hover:text-white transition-colors"
+              className="flex-1 px-4 py-2 border border-amber-300 rounded-lg text-stone-600 hover:bg-amber-50 transition-colors"
             >
               {t.mixerReset}
             </button>
@@ -188,7 +188,7 @@ export default function CoffeeMixer({ isOpen, onClose, lang, t }) {
               disabled={layers.length === 0}
               className={`flex-1 px-4 py-2 rounded-lg transition-all ${
                 layers.length === 0
-                  ? 'bg-dark-elevated text-gray-600 cursor-not-allowed'
+                  ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                   : 'btn-gold'
               }`}
             >

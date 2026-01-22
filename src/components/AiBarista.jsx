@@ -160,45 +160,45 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
       <div
         className="absolute inset-0"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-md bg-dark-secondary rounded-2xl shadow-2xl overflow-hidden animate-slideUp border border-dark-border">
+      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden animate-slideUp border border-amber-200">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-border bg-dark-card">
+        <div className="flex items-center justify-between p-4 border-b border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center text-dark-primary text-lg">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center text-white text-lg shadow">
               🤖
             </div>
             <div>
-              <h2 className="font-semibold text-white">{l.title}</h2>
-              <span className="text-xs text-green-400 flex items-center gap-1">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <h2 className="font-semibold text-stone-800">{l.title}</h2>
+              <span className="text-xs text-green-600 flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 Online
               </span>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-dark-elevated text-gray-400 hover:text-white transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-amber-100 text-stone-500 hover:text-stone-700 transition-colors"
           >
             ✕
           </button>
         </div>
 
         {/* Messages */}
-        <div className="h-80 overflow-y-auto p-4 space-y-4">
+        <div className="h-80 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-white to-amber-50/30">
           {messages.map((msg, i) => (
             <div
               key={i}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'
+                msg.role === 'user' ? 'chat-bubble-user-light' : 'chat-bubble-ai-light'
               }`}>
-                <p className={`text-sm ${msg.role === 'user' ? 'text-dark-primary' : 'text-white'}`}>
+                <p className={`text-sm ${msg.role === 'user' ? 'text-white' : 'text-stone-700'}`}>
                   {msg.text.split('**').map((part, j) =>
                     j % 2 === 1 ? <strong key={j} className="text-gold">{part}</strong> : part
                   )}
@@ -217,7 +217,7 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
 
           {isTyping && (
             <div className="flex justify-start">
-              <div className="chat-bubble-ai rounded-2xl">
+              <div className="chat-bubble-ai-light rounded-2xl">
                 <div className="typing-indicator">
                   <span></span>
                   <span></span>
@@ -235,7 +235,7 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
             <button
               key={i}
               onClick={() => handleSend(suggestion)}
-              className="whitespace-nowrap text-xs px-3 py-1.5 rounded-full border border-dark-border text-gray-400 hover:border-gold hover:text-gold transition-colors"
+              className="whitespace-nowrap text-xs px-3 py-1.5 rounded-full border border-amber-200 text-stone-600 hover:border-gold hover:text-gold hover:bg-amber-50 transition-colors"
             >
               {suggestion}
             </button>
@@ -243,7 +243,7 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-dark-border bg-dark-card">
+        <div className="p-4 border-t border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
           <div className="flex gap-2">
             <input
               type="text"
@@ -251,7 +251,7 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder={l.placeholder}
-              className="flex-1 px-4 py-3 bg-dark-primary rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold/50"
+              className="flex-1 px-4 py-3 bg-white rounded-xl text-stone-700 placeholder-stone-400 border border-amber-200 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
             />
             <button
               onClick={() => handleSend()}
@@ -259,7 +259,7 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, lang }) {
               className={`px-4 rounded-xl transition-all ${
                 input.trim()
                   ? 'btn-gold'
-                  : 'bg-dark-elevated text-gray-500 cursor-not-allowed'
+                  : 'bg-stone-200 text-stone-400 cursor-not-allowed'
               }`}
             >
               📤
