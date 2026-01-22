@@ -6,6 +6,7 @@ import CoffeeCarousel from './components/CoffeeCarousel';
 import CoffeeMixer from './components/CoffeeMixer';
 import Cart from './components/shop/Cart';
 import AiBarista from './components/AiBarista';
+import CoffeeGrounds from './components/CoffeeGrounds';
 import { CartProvider, useCart } from './context/CartContext';
 
 function CoffeeGuideInner() {
@@ -310,10 +311,10 @@ function CoffeeGuideInner() {
         </div>
       </main>
 
-      {/* Floating AI Barista Button */}
+      {/* Floating AI Barista Button - Left Side */}
       <button
         onClick={() => setBaristaOpen(true)}
-        className="fixed bottom-6 right-6 z-50 group"
+        className="fixed bottom-6 left-6 z-50 group"
       >
         <div className="relative">
           {/* Pulse animation */}
@@ -324,8 +325,8 @@ function CoffeeGuideInner() {
             <span className="text-3xl">🤖</span>
           </div>
 
-          {/* Speech bubble */}
-          <div className="absolute -top-12 -left-2 bg-white rounded-xl px-3 py-1.5 shadow-lg border border-stone-200 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          {/* Speech bubble - pointing left */}
+          <div className="absolute -top-12 left-0 bg-white rounded-xl px-3 py-1.5 shadow-lg border border-stone-200 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             <span className="text-sm font-medium text-stone-700">
               {lang === 'de' ? 'Hey, brauchst du Hilfe?' : 'Need help?'}
             </span>
@@ -356,6 +357,9 @@ function CoffeeGuideInner() {
         onCustomCoffee={handleCustomCoffee}
         lang={lang}
       />
+
+      {/* Random Coffee Grounds Animation */}
+      <CoffeeGrounds />
     </div>
   );
 }

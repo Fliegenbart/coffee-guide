@@ -269,12 +269,12 @@ export default function AiBarista({ isOpen, onClose, onSelectCoffee, onCustomCof
         onClick={onClose}
       />
 
-      {/* Speech Bubble Chat - positioned above the robot button */}
-      <div className="fixed bottom-24 right-4 z-50 w-80 max-w-[calc(100vw-2rem)] animate-slideUp">
+      {/* Speech Bubble Chat - positioned above the robot button (left side) */}
+      <div className="fixed bottom-24 left-4 z-50 w-80 max-w-[calc(100vw-2rem)] animate-slideUp">
         {/* Speech bubble with pointer */}
         <div className="relative bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden">
-          {/* Pointer triangle pointing down-right to the robot */}
-          <div className="absolute -bottom-3 right-8 w-6 h-6 bg-white border-r border-b border-stone-200 transform rotate-45" />
+          {/* Pointer triangle pointing down-left to the robot */}
+          <div className="absolute -bottom-3 left-8 w-6 h-6 bg-white border-r border-b border-stone-200 transform rotate-45" />
 
           {/* Header */}
           <div className="flex items-center justify-between p-3 border-b border-stone-100 bg-gradient-to-r from-amber-500 to-orange-500">

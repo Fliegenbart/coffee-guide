@@ -103,6 +103,7 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
   const [copied, setCopied] = useState(false);
   const [showSocial, setShowSocial] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [shareStatus, setShareStatus] = useState(null);
   const cardRef = useRef(null);
 
   if (!coffee) {
@@ -150,87 +151,127 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
     }
   };
 
+  const downloadImage = (blob, filename) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleInstagramShare = async () => {
-    const canvas = await generateImage();
-    if (!canvas) return;
+    setShareStatus('generating');
 
-    // Convert to blob
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const file = new File([blob], `${coffee.name[lang]}.png`, { type: 'image/png' });
-
-      // Try Web Share API (works on mobile)
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: coffee.name[lang],
-            text: `${coffee.name[lang]} - ${coffee.description[lang]} ☕`
-          });
-          return;
-        } catch (err) {
-          if (err.name !== 'AbortError') {
-            console.log('Share failed, falling back to download');
-          }
-        }
+    try {
+      const canvas = await generateImage();
+      if (!canvas) {
+        setShareStatus('error');
+        setTimeout(() => setShareStatus(null), 2000);
+        return;
       }
 
-      // Fallback: Download image
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${coffee.name[lang].replace(/\s+/g, '-')}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 'image/png');
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          setShareStatus('error');
+          setTimeout(() => setShareStatus(null), 2000);
+          return;
+        }
+
+        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.png`;
+        const file = new File([blob], filename, { type: 'image/png' });
+
+        // Try Web Share API (works on mobile)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: coffee.name[lang],
+              text: `${coffee.name[lang]} ☕ #coffee #kaffee`
+            });
+            setShareStatus('shared');
+            setTimeout(() => setShareStatus(null), 2000);
+            return;
+          } catch (err) {
+            if (err.name === 'AbortError') {
+              setShareStatus(null);
+              return;
+            }
+          }
+        }
+
+        // Fallback: Download image
+        downloadImage(blob, filename);
+        setShareStatus('downloaded');
+        setTimeout(() => setShareStatus(null), 3000);
+      }, 'image/png');
+    } catch (error) {
+      console.error('Instagram share error:', error);
+      setShareStatus('error');
+      setTimeout(() => setShareStatus(null), 2000);
+    }
   };
 
   const handleWhatsAppShare = async () => {
-    const canvas = await generateImage();
-    if (!canvas) return;
+    setShareStatus('generating');
 
-    // Convert to blob
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const file = new File([blob], `${coffee.name[lang]}.png`, { type: 'image/png' });
-      const shareText = `${coffee.name[lang]} - ${coffee.description[lang]} ☕`;
-
-      // Try Web Share API (works on mobile)
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: coffee.name[lang],
-            text: shareText
-          });
-          return;
-        } catch (err) {
-          if (err.name !== 'AbortError') {
-            console.log('Share failed, falling back to WhatsApp web');
-          } else {
-            return; // User cancelled
-          }
-        }
+    try {
+      const canvas = await generateImage();
+      if (!canvas) {
+        setShareStatus('error');
+        setTimeout(() => setShareStatus(null), 2000);
+        return;
       }
 
-      // Fallback: Download image and open WhatsApp web with text
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${coffee.name[lang].replace(/\s+/g, '-')}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          setShareStatus('error');
+          setTimeout(() => setShareStatus(null), 2000);
+          return;
+        }
 
-      // Open WhatsApp with message
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + ' (Bild heruntergeladen)')}`;
-      window.open(whatsappUrl, '_blank');
-    }, 'image/png');
+        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.png`;
+        const file = new File([blob], filename, { type: 'image/png' });
+        const shareText = `☕ ${coffee.name[lang]} - ${coffee.description[lang]}`;
+
+        // Try Web Share API (works on mobile)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: coffee.name[lang],
+              text: shareText
+            });
+            setShareStatus('shared');
+            setTimeout(() => setShareStatus(null), 2000);
+            return;
+          } catch (err) {
+            if (err.name === 'AbortError') {
+              setShareStatus(null);
+              return;
+            }
+          }
+        }
+
+        // Fallback: Download image + open WhatsApp
+        downloadImage(blob, filename);
+
+        // Small delay then open WhatsApp
+        setTimeout(() => {
+          const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n\n📸 Bild wurde heruntergeladen!')}`;
+          window.open(whatsappUrl, '_blank');
+        }, 500);
+
+        setShareStatus('downloaded-wa');
+        setTimeout(() => setShareStatus(null), 3000);
+      }, 'image/png');
+    } catch (error) {
+      console.error('WhatsApp share error:', error);
+      setShareStatus('error');
+      setTimeout(() => setShareStatus(null), 2000);
+    }
   };
 
   const handleSpotifyOpen = () => {
@@ -381,8 +422,23 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
         </div>
       </div>
 
+      {/* Share Status Message */}
+      {shareStatus && (
+        <div className={`mt-2 px-4 py-2 rounded-full text-sm font-medium text-center animate-fadeIn ${
+          shareStatus === 'error' ? 'bg-red-100 text-red-700' :
+          shareStatus === 'generating' ? 'bg-amber-100 text-amber-700' :
+          'bg-green-100 text-green-700'
+        }`}>
+          {shareStatus === 'generating' && (lang === 'de' ? '📸 Bild wird erstellt...' : '📸 Creating image...')}
+          {shareStatus === 'downloaded' && (lang === 'de' ? '✓ Bild heruntergeladen! Jetzt auf Instagram teilen.' : '✓ Image downloaded! Share on Instagram now.')}
+          {shareStatus === 'downloaded-wa' && (lang === 'de' ? '✓ Bild heruntergeladen! WhatsApp öffnet sich...' : '✓ Image downloaded! Opening WhatsApp...')}
+          {shareStatus === 'shared' && (lang === 'de' ? '✓ Geteilt!' : '✓ Shared!')}
+          {shareStatus === 'error' && (lang === 'de' ? '✗ Fehler beim Erstellen' : '✗ Error creating image')}
+        </div>
+      )}
+
       {/* Social Share Buttons */}
-      <div className="mt-4 flex items-center gap-2">
+      <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
         {/* URL Share */}
         {onShare && (
           <button
@@ -403,31 +459,34 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
         {/* Instagram Share */}
         <button
           onClick={handleInstagramShare}
-          disabled={isGeneratingImage}
+          disabled={shareStatus === 'generating'}
           className={`flex items-center gap-2 px-3 py-2 text-sm rounded-full transition-all ${
-            isGeneratingImage
-              ? 'bg-stone-200 text-stone-400'
-              : 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:shadow-lg'
+            shareStatus === 'generating'
+              ? 'bg-stone-200 text-stone-400 cursor-wait'
+              : 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:shadow-lg hover:scale-105'
           }`}
-          title="Instagram"
+          title={lang === 'de' ? 'Bild für Instagram herunterladen' : 'Download image for Instagram'}
         >
-          {isGeneratingImage ? (
+          {shareStatus === 'generating' ? (
             <span className="animate-spin">⏳</span>
           ) : (
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
+            <>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              <span className="text-xs">📸</span>
+            </>
           )}
         </button>
 
         {/* WhatsApp Share */}
         <button
           onClick={handleWhatsAppShare}
-          disabled={isGeneratingImage}
+          disabled={shareStatus === 'generating'}
           className={`flex items-center gap-2 px-3 py-2 text-sm rounded-full transition-all ${
-            isGeneratingImage
-              ? 'bg-stone-200 text-stone-400'
-              : 'bg-[#25D366] text-white hover:bg-[#20bd5a] hover:shadow-lg'
+            shareStatus === 'generating'
+              ? 'bg-stone-200 text-stone-400 cursor-wait'
+              : 'bg-[#25D366] text-white hover:bg-[#20bd5a] hover:shadow-lg hover:scale-105'
           }`}
           title="WhatsApp"
         >
