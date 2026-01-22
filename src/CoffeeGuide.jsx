@@ -4,8 +4,10 @@ import { translations } from './i18n/translations';
 import HeroCup from './components/HeroCup';
 import CoffeeGrid from './components/CoffeeGrid';
 import CoffeeMixer from './components/CoffeeMixer';
+import Cart from './components/shop/Cart';
+import { CartProvider, useCart } from './context/CartContext';
 
-export default function CoffeeGuide() {
+function CoffeeGuideInner() {
   const [selected, setSelected] = useState(() => coffees[0]);
   const [filter, setFilter] = useState('all');
   const [lang, setLang] = useState('de');
@@ -15,6 +17,7 @@ export default function CoffeeGuide() {
 
   const t = translations[lang];
   const cats = categories[lang];
+  const { totalItems, setIsOpen: setCartOpen } = useCart();
 
   // Check for shared mix in URL
   useEffect(() => {
@@ -104,6 +107,19 @@ export default function CoffeeGuide() {
               >
                 {t.language}
               </button>
+
+              {/* Cart Button */}
+              <button
+                onClick={() => setCartOpen(true)}
+                className="relative w-10 h-10 rounded-full bg-stone-800 text-white hover:bg-stone-700 transition-all flex items-center justify-center"
+              >
+                🛒
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
 
@@ -175,6 +191,17 @@ export default function CoffeeGuide() {
         lang={lang}
         t={t}
       />
+
+      {/* Cart Drawer */}
+      <Cart lang={lang} />
     </div>
+  );
+}
+
+export default function CoffeeGuide() {
+  return (
+    <CartProvider>
+      <CoffeeGuideInner />
+    </CartProvider>
   );
 }

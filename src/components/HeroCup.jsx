@@ -1,5 +1,6 @@
 import React from 'react';
 import { ingredients, ingredientLabels } from '../data/ingredients';
+import BeanRecommendation from './shop/BeanRecommendation';
 
 export default function HeroCup({ coffee, lang, t }) {
   if (!coffee) {
@@ -115,6 +116,9 @@ export default function HeroCup({ coffee, lang, t }) {
           {t.caffeineLevel[caffeineLevel]}
         </span>
       </div>
+
+      {/* Bean Recommendations */}
+      <BeanRecommendation coffeeId={coffee.id} lang={lang} t={t} />
     </div>
   );
 }
