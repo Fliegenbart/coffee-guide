@@ -1,185 +1,180 @@
-import React, { useState } from 'react';
-
-const coffees = [
-  { name: 'Espresso', layers: [{ type: 'espresso', ratio: 100 }] },
-  { name: 'Doppio', layers: [{ type: 'espresso', ratio: 100 }], note: '2x' },
-  { name: 'Ristretto', layers: [{ type: 'espresso', ratio: 100 }], note: 'kurz' },
-  { name: 'Lungo', layers: [{ type: 'espresso', ratio: 40 }, { type: 'water', ratio: 60 }] },
-  { name: 'Americano', layers: [{ type: 'espresso', ratio: 30 }, { type: 'water', ratio: 70 }] },
-  { name: 'Long Black', layers: [{ type: 'water', ratio: 60 }, { type: 'espresso', ratio: 40 }] },
-  { name: 'Macchiato', layers: [{ type: 'espresso', ratio: 80 }, { type: 'foam', ratio: 20 }] },
-  { name: 'Cortado', layers: [{ type: 'espresso', ratio: 50 }, { type: 'steamed', ratio: 50 }] },
-  { name: 'Piccolo', layers: [{ type: 'espresso', ratio: 40 }, { type: 'steamed', ratio: 50 }, { type: 'foam', ratio: 10 }] },
-  { name: 'Flat White', layers: [{ type: 'espresso', ratio: 35 }, { type: 'steamed', ratio: 60 }, { type: 'microfoam', ratio: 5 }] },
-  { name: 'Cappuccino', layers: [{ type: 'espresso', ratio: 33 }, { type: 'steamed', ratio: 33 }, { type: 'foam', ratio: 34 }] },
-  { name: 'Latte', layers: [{ type: 'espresso', ratio: 20 }, { type: 'steamed', ratio: 70 }, { type: 'foam', ratio: 10 }] },
-  { name: 'Latte Macchiato', layers: [{ type: 'steamed', ratio: 60 }, { type: 'espresso', ratio: 25 }, { type: 'foam', ratio: 15 }] },
-  { name: 'Mocha', layers: [{ type: 'chocolate', ratio: 15 }, { type: 'espresso', ratio: 25 }, { type: 'steamed', ratio: 50 }, { type: 'cream', ratio: 10 }] },
-  { name: 'Affogato', layers: [{ type: 'icecream', ratio: 60 }, { type: 'espresso', ratio: 40 }] },
-  { name: 'Irish Coffee', layers: [{ type: 'whiskey', ratio: 15 }, { type: 'espresso', ratio: 35 }, { type: 'cream', ratio: 50 }] },
-  { name: 'Vienna', layers: [{ type: 'espresso', ratio: 50 }, { type: 'cream', ratio: 50 }] },
-  { name: 'Con Panna', layers: [{ type: 'espresso', ratio: 70 }, { type: 'cream', ratio: 30 }] },
-  { name: 'Breve', layers: [{ type: 'espresso', ratio: 25 }, { type: 'halfhalf', ratio: 65 }, { type: 'foam', ratio: 10 }] },
-  { name: 'Red Eye', layers: [{ type: 'drip', ratio: 70 }, { type: 'espresso', ratio: 30 }] },
-  { name: 'Black Eye', layers: [{ type: 'drip', ratio: 60 }, { type: 'espresso', ratio: 40 }], note: '2x' },
-  { name: 'Dirty Chai', layers: [{ type: 'chai', ratio: 70 }, { type: 'espresso', ratio: 30 }] },
-  { name: 'Café Bombón', layers: [{ type: 'condensed', ratio: 50 }, { type: 'espresso', ratio: 50 }] },
-  { name: 'Galão', layers: [{ type: 'espresso', ratio: 25 }, { type: 'steamed', ratio: 75 }] },
-  { name: 'Frappé', layers: [{ type: 'ice', ratio: 40 }, { type: 'espresso', ratio: 30 }, { type: 'milk', ratio: 20 }, { type: 'foam', ratio: 10 }] },
-];
-
-const ingredients = {
-  espresso: { color: '#3D2314', label: 'Espresso' },
-  water: { color: '#87CEEB', label: 'Wasser' },
-  steamed: { color: '#FFF8E7', label: 'Milch' },
-  milk: { color: '#FFFEF0', label: 'Milch' },
-  foam: { color: '#FFFFFF', label: 'Schaum' },
-  microfoam: { color: '#FEFEFE', label: 'Mikroschaum' },
-  cream: { color: '#FFFDD0', label: 'Sahne' },
-  chocolate: { color: '#5C4033', label: 'Schokolade' },
-  icecream: { color: '#FFF5E1', label: 'Eis' },
-  whiskey: { color: '#D4A849', label: 'Whiskey' },
-  halfhalf: { color: '#FFF5DC', label: 'Half & Half' },
-  drip: { color: '#6F4E37', label: 'Filterkaffee' },
-  chai: { color: '#C19A6B', label: 'Chai' },
-  condensed: { color: '#FFF8DC', label: 'Kondensmilch' },
-  ice: { color: '#E0F7FA', label: 'Eis' },
-};
+import React, { useState, useEffect } from 'react';
+import { coffees, categories } from './data/coffees';
+import { translations } from './i18n/translations';
+import HeroCup from './components/HeroCup';
+import CoffeeGrid from './components/CoffeeGrid';
+import CoffeeMixer from './components/CoffeeMixer';
 
 export default function CoffeeGuide() {
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [lang, setLang] = useState('de');
+  const [mixerOpen, setMixerOpen] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const categories = {
-    all: 'Alle',
-    pure: 'Pur',
-    milk: 'Mit Milch',
-    special: 'Spezial',
-  };
+  const t = translations[lang];
+  const cats = categories[lang];
+
+  // Check for shared mix in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mix = params.get('mix');
+    if (mix) {
+      try {
+        const data = JSON.parse(atob(mix));
+        // Could show custom mix here
+        console.log('Shared mix:', data);
+      } catch (e) {
+        console.error('Invalid mix data');
+      }
+    }
+  }, []);
 
   const filterCoffee = (coffee) => {
     if (filter === 'all') return true;
-    if (filter === 'pure') return coffee.layers.every(l => ['espresso', 'water', 'drip'].includes(l.type));
-    if (filter === 'milk') return coffee.layers.some(l => ['steamed', 'milk', 'foam', 'microfoam'].includes(l.type));
-    if (filter === 'special') return coffee.layers.some(l => ['chocolate', 'whiskey', 'chai', 'icecream', 'condensed'].includes(l.type));
-    return true;
+    return coffee.category === filter;
   };
 
   const filtered = coffees.filter(filterCoffee);
 
+  const handleSurpriseMe = () => {
+    setIsSpinning(true);
+    let count = 0;
+    const maxSpins = 15;
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * coffees.length);
+      setSelected(coffees[randomIndex]);
+      count++;
+      if (count >= maxSpins) {
+        clearInterval(interval);
+        setIsSpinning(false);
+        // Final selection
+        const finalIndex = Math.floor(Math.random() * coffees.length);
+        setSelected(coffees[finalIndex]);
+        setFilter('all');
+      }
+    }, 100);
+  };
+
+  const handleShare = () => {
+    if (!selected) return;
+    const url = `${window.location.origin}?coffee=${selected.id}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen bg-stone-100 p-6">
-      <header className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-light text-stone-800 tracking-wide">Kaffee Guide</h1>
-        <p className="text-stone-500 mt-1">{coffees.length} Getränke</p>
-        
-        <div className="flex gap-2 mt-4 flex-wrap">
-          {Object.entries(categories).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setFilter(key)}
-              className={`px-4 py-1.5 rounded-full text-sm transition-all ${
-                filter === key 
-                  ? 'bg-stone-800 text-white' 
-                  : 'bg-white text-stone-600 hover:bg-stone-200'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-stone-200">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-light text-stone-800 tracking-wide">{t.title}</h1>
+              <p className="text-stone-500 text-sm">{coffees.length} {t.subtitle}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              {/* Surprise Me Button */}
+              <button
+                onClick={handleSurpriseMe}
+                disabled={isSpinning}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  isSpinning
+                    ? 'bg-yellow-400 text-stone-800 animate-pulse'
+                    : 'bg-stone-800 text-white hover:bg-stone-700'
+                }`}
+              >
+                {isSpinning ? '🎰' : '🎲'} {t.surpriseMe}
+              </button>
+
+              {/* Mixer Button */}
+              <button
+                onClick={() => setMixerOpen(true)}
+                className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition-all"
+              >
+                🧪 {t.mixer}
+              </button>
+
+              {/* Language Toggle */}
+              <button
+                onClick={() => setLang(lang === 'de' ? 'en' : 'de')}
+                className="w-10 h-10 rounded-full bg-stone-100 text-stone-600 hover:bg-stone-200 transition-all flex items-center justify-center text-sm font-medium"
+              >
+                {t.language}
+              </button>
+            </div>
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex gap-2 mt-4 flex-wrap">
+            {Object.entries(cats).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`px-4 py-1.5 rounded-full text-sm transition-all ${
+                  filter === key
+                    ? 'bg-stone-800 text-white'
+                    : 'bg-white text-stone-600 hover:bg-stone-200 border border-stone-200'
+                }`}
+              >
+                {key === 'crazy' && '🤪 '}
+                {key === 'decaf' && '😴 '}
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4">
-          {filtered.map((coffee, idx) => (
-            <button
-              key={coffee.name}
-              onClick={() => setSelected(selected === idx ? null : idx)}
-              className={`group flex flex-col items-center transition-all ${
-                selected === idx ? 'scale-105' : 'hover:scale-102'
-              }`}
-            >
-              {/* Cup */}
-              <div className="relative w-16 h-20 flex flex-col justify-end">
-                {/* Cup body */}
-                <div 
-                  className="w-14 mx-auto rounded-b-xl overflow-hidden bg-white shadow-md border border-stone-200"
-                  style={{ height: '56px' }}
-                >
-                  <div className="h-full flex flex-col-reverse">
-                    {coffee.layers.map((layer, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          backgroundColor: ingredients[layer.type]?.color || '#ccc',
-                          height: `${layer.ratio}%`,
-                        }}
-                        className="w-full transition-all"
-                      />
-                    ))}
-                  </div>
-                </div>
-                {/* Handle */}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-6 border-2 border-stone-300 rounded-r-full bg-transparent" />
-                {/* Note badge */}
-                {coffee.note && (
-                  <span className="absolute -top-1 -right-1 text-[9px] bg-stone-700 text-white px-1 rounded">
-                    {coffee.note}
-                  </span>
-                )}
-              </div>
-              
-              {/* Name */}
-              <span className={`mt-2 text-xs text-center leading-tight transition-colors ${
-                selected === idx ? 'text-stone-900 font-medium' : 'text-stone-600'
-              }`}>
-                {coffee.name}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        {/* Detail panel */}
-        {selected !== null && filtered[selected] && (
-          <div className="mt-8 p-6 bg-white rounded-2xl shadow-sm max-w-md mx-auto">
-            <h2 className="text-xl font-medium text-stone-800 mb-4">
-              {filtered[selected].name}
-            </h2>
-            <div className="space-y-2">
-              {filtered[selected].layers.map((layer, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div 
-                    className="w-4 h-4 rounded-full border border-stone-200"
-                    style={{ backgroundColor: ingredients[layer.type]?.color }}
-                  />
-                  <span className="text-stone-600 text-sm">
-                    {ingredients[layer.type]?.label}
-                  </span>
-                  <span className="text-stone-400 text-sm ml-auto">
-                    {layer.ratio}%
-                  </span>
-                </div>
-              ))}
-            </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left: Coffee Grid */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-stone-200/50">
+            <CoffeeGrid
+              coffees={filtered}
+              selected={selected}
+              onSelect={setSelected}
+              lang={lang}
+            />
           </div>
-        )}
+
+          {/* Right: Hero Cup */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200/50 min-h-[500px] flex flex-col">
+            <div className="flex-1 flex items-center justify-center">
+              <HeroCup coffee={selected} lang={lang} t={t} />
+            </div>
+
+            {/* Share Button */}
+            {selected && (
+              <div className="mt-6 flex justify-center">
+                <button
+                  onClick={handleShare}
+                  className="px-6 py-2 rounded-full text-sm font-medium bg-stone-100 text-stone-700 hover:bg-stone-200 transition-all flex items-center gap-2"
+                >
+                  {copied ? '✓ ' : '🔗 '}
+                  {copied ? t.shareCopied : t.share}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </main>
 
-      {/* Legend */}
-      <footer className="max-w-6xl mx-auto mt-12 pt-6 border-t border-stone-200">
-        <div className="flex flex-wrap gap-4 justify-center">
-          {Object.entries(ingredients).slice(0, 8).map(([key, { color, label }]) => (
-            <div key={key} className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full border border-stone-200"
-                style={{ backgroundColor: color }}
-              />
-              <span className="text-xs text-stone-500">{label}</span>
-            </div>
-          ))}
-        </div>
+      {/* Footer */}
+      <footer className="text-center py-8 text-stone-400 text-sm">
+        <p>{t.footer}</p>
       </footer>
+
+      {/* Mixer Modal */}
+      <CoffeeMixer
+        isOpen={mixerOpen}
+        onClose={() => setMixerOpen(false)}
+        lang={lang}
+        t={t}
+      />
     </div>
   );
 }
