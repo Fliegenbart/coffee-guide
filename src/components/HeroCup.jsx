@@ -136,11 +136,16 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
     setIsGeneratingImage(true);
 
     try {
+      // Wait a bit for any animations to settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#fafaf9',
         scale: 2,
         useCORS: true,
-        logging: false
+        logging: false,
+        allowTaint: true,
+        removeContainer: true,
       });
       return canvas;
     } catch (error) {
@@ -173,6 +178,7 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
         return;
       }
 
+      // Use JPEG for better compatibility with Instagram
       canvas.toBlob(async (blob) => {
         if (!blob) {
           setShareStatus('error');
@@ -180,8 +186,8 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
           return;
         }
 
-        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.png`;
-        const file = new File([blob], filename, { type: 'image/png' });
+        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.jpg`;
+        const file = new File([blob], filename, { type: 'image/jpeg' });
 
         // Try Web Share API (works on mobile)
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -206,7 +212,7 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
         downloadImage(blob, filename);
         setShareStatus('downloaded');
         setTimeout(() => setShareStatus(null), 3000);
-      }, 'image/png');
+      }, 'image/jpeg', 0.95); // JPEG with 95% quality
     } catch (error) {
       console.error('Instagram share error:', error);
       setShareStatus('error');
@@ -225,6 +231,7 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
         return;
       }
 
+      // Use JPEG for better compatibility with WhatsApp
       canvas.toBlob(async (blob) => {
         if (!blob) {
           setShareStatus('error');
@@ -232,8 +239,8 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
           return;
         }
 
-        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.png`;
-        const file = new File([blob], filename, { type: 'image/png' });
+        const filename = `${coffee.name[lang].replace(/\s+/g, '-')}-coffee.jpg`;
+        const file = new File([blob], filename, { type: 'image/jpeg' });
         const shareText = `☕ ${coffee.name[lang]} - ${coffee.description[lang]}`;
 
         // Try Web Share API (works on mobile)
@@ -266,7 +273,7 @@ export default function HeroCup({ coffee, lang, t, isCustom = false, onShare }) 
 
         setShareStatus('downloaded-wa');
         setTimeout(() => setShareStatus(null), 3000);
-      }, 'image/png');
+      }, 'image/jpeg', 0.95); // JPEG with 95% quality
     } catch (error) {
       console.error('WhatsApp share error:', error);
       setShareStatus('error');
